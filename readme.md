@@ -8,6 +8,7 @@ Organised as Completed, In Progress, Yet to Begin , also qualified as OSSU or No
 
 ## Completed
 
+
 - [CS50](https://cs50.harvard.edu/x/) (Non OSSU)
 - [Introduction to Computer Science and Programming using Python](https://cs.ossu.dev/coursepages/intro-cs/) (OSSU)
 - [CS50 Python](https://cs50.harvard.edu/python/) (Non OSSU)
@@ -34,6 +35,7 @@ Organised as Completed, In Progress, Yet to Begin , also qualified as OSSU or No
 - [Object Oriented Design](https://course.ccs.neu.edu/cs3500f19/) (OSSU)
 - [Software Architecture](https://www.coursera.org/learn/software-architecture) (OSSU)
 - [Code: The Hidden Language of Computer Hardware and Software](https://bobcarp.wordpress.com/wp-content/uploads/2014/07/code-charles-petzold.pdf) (Non OSSU)
+- [How the internet really works]() (Non OSSU)
 - [The Pragmatic Programmer](https://bobcarp.wordpress.com/wp-content/uploads/2014/07/code-charles-petzold.pdf) (Non OSSU)
 - [The Philosophy of Software Design](https://web.stanford.edu/~ouster/cgi-bin/aposd2ndEdExtract.pdf) (Non OSSU)
 - [Some Course on DevOps](Yet to be Decided) (Non OSSU)
@@ -108,7 +110,7 @@ Computer Science
 | **Module1 – Intro to CS** | Introduction to Programming – MIT, Missing Semester of CS Education | CS50 – Intro to Computer Science, 100 Days of Python, CS50 – Intro to Python, Data Analysis & Visualisation in Python |
 | **Module2 – Core Programming** | Systematic Program Design, Class-Based Program Design, Programming Languages, Object-Oriented Design, Software Architecture | Pragmatic Programmer, Philosophy of Software Design |
 | **Module3 – Core Maths** | Calculus, Linear Algebra, Probability, Mathematics for Computer Science | Essence of Linear Algebra |
-| **Module4 – Core Systems** | Nand to Tetris, Operating Systems: Three Easy Pieces | Amateur Systems Understanding, Code – The Hidden Language of Hardware & Software, Computer Systems: A Programmer’s Perspective (CSAPP), Udemy Computer Networking |
+| **Module4 – Core Systems** | Nand to Tetris, Operating Systems: Three Easy Pieces | Amateur Systems Understanding, Code – The Hidden Language of Hardware & Software, Computer Systems: A Programmer’s Perspective (CSAPP), Udemy Computer Networking , How the Internet Really Works|
 | **Module5 – Core Theory** | Algorithms I, Algorithms II, Algorithms III, Algorithms IV | — |
 | **Module6 – Core Applications** | Databases: Theory & Modeling, Relational Databases & SQL, Semistructured Data | CS50W, Angela Yu Bootcamp, Intro to DB Systems, DevOps, Software Engineering, Database Internals, Frontend Practice |
 | **Module7 – Advanced Courses** | Software Debugging, Software Testing, Compilers, Theory of Computation | Crafting Interpreters |
