@@ -23,18 +23,20 @@ Organised as Completed, In Progress, Yet to Begin , also qualified as OSSU or No
 - [Full Stack Web Dev](https://www.udemy.com/course/the-complete-web-development-bootcamp/) (Non OSSU)
 - [Python Data Analyis and Visualisation](https://www.udemy.com/course/python-data-analysis-visualization/learn/lecture/29948152?start=0#overview) (Non OSSU)
 - [Missing Sem of your CS Education](https://missing.csail.mit.edu/) (OSSU)
+- [Code: The Hidden Language of Computer Hardware and Software](https://bobcarp.wordpress.com/wp-content/uploads/2014/07/code-charles-petzold.pdf) (Non OSSU)
 
 ## In Progress
 
 - [100 days of Code](https://www.udemy.com/course/100-days-of-code/) (Non OSSU)
 - [Nand to Tetris - Part A](https://www.coursera.org/learn/build-a-computer) (OSSU)
 - [Machine Learning Specialisation](https://www.coursera.org/learn/machine-learning) (OSSU)
+- [Essence of Calculus](https://www.youtube.com/watch?v=WUvTyaaNkzM&list=PLZHQObOWTQDMsr9K-rj53DwVRMYO3t5Yr) (Non OSSU)
+- [Essence of Linear Algebra](https://www.youtube.com/watch?v=fNk_zzaMoSs&list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) (Non OSSU)
 
 ## Yet to Begin
 
 - [Object Oriented Design](https://course.ccs.neu.edu/cs3500f19/) (OSSU)
 - [Software Architecture](https://www.coursera.org/learn/software-architecture) (OSSU)
-- [Code: The Hidden Language of Computer Hardware and Software](https://bobcarp.wordpress.com/wp-content/uploads/2014/07/code-charles-petzold.pdf) (Non OSSU)
 - [How the internet really works]() (Non OSSU)
 - [The Pragmatic Programmer](https://bobcarp.wordpress.com/wp-content/uploads/2014/07/code-charles-petzold.pdf) (Non OSSU)
 - [The Philosophy of Software Design](https://web.stanford.edu/~ouster/cgi-bin/aposd2ndEdExtract.pdf) (Non OSSU)
@@ -50,7 +52,6 @@ Organised as Completed, In Progress, Yet to Begin , also qualified as OSSU or No
 - [Databases: Semistructured Data](https://www.edx.org/course/semistructured-data) (OSSU)
 - [Software Debugging](https://www.youtube.com/playlist?list=PLAwxTw4SYaPkxK63TiT88oEe-AIBhr96A) (OSSU)
 - [Software Testing](https://www.youtube.com/playlist?list=PLAwxTw4SYaPkWVHeC_8aSIbSxE_NXI76g) (OSSU)
-- [Essence of Linear Algeba](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab) (OSSU)
 - [Probability](https://projects.iq.harvard.edu/stat110/home) (OSSU)
 - [Linear Algebra](https://ocw.mit.edu/courses/mathematics/18-06sc-linear-algebra-fall-2011/) (OSSU)
 - [Mathematics for Computer Science](https://openlearninglibrary.mit.edu/courses/course-v1:OCW+6.042J+2T2019/about) (OSSU)
@@ -109,7 +110,7 @@ Computer Science
 |------|-------------|----------------|
 | **Module1 – Intro to CS** | Introduction to Programming – MIT, Missing Semester of CS Education | CS50 – Intro to Computer Science, 100 Days of Python, CS50 – Intro to Python, Data Analysis & Visualisation in Python |
 | **Module2 – Core Programming** | Systematic Program Design, Class-Based Program Design, Programming Languages, Object-Oriented Design, Software Architecture | Pragmatic Programmer, Philosophy of Software Design |
-| **Module3 – Core Maths** | Calculus, Linear Algebra, Probability, Mathematics for Computer Science | Essence of Linear Algebra |
+| **Module3 – Core Maths** | Calculus, Linear Algebra, Probability, Mathematics for Computer Science | Essence of Linear Algebra | Essence of Calculus |
 | **Module4 – Core Systems** | Nand to Tetris, Operating Systems: Three Easy Pieces | Amateur Systems Understanding, Code – The Hidden Language of Hardware & Software, Computer Systems: A Programmer’s Perspective (CSAPP), Udemy Computer Networking , How the Internet Really Works|
 | **Module5 – Core Theory** | Algorithms I, Algorithms II, Algorithms III, Algorithms IV | — |
 | **Module6 – Core Applications** | Databases: Theory & Modeling, Relational Databases & SQL, Semistructured Data | CS50W, Angela Yu Bootcamp, Intro to DB Systems, DevOps, Software Engineering, Database Internals, Frontend Practice |
