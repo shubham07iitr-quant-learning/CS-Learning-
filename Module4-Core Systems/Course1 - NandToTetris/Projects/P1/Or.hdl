@@ -1,0 +1,22 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Or.hdl
+/**
+ * Or gate:
+ * if (a or b) out = 1, else out = 0 
+ */
+CHIP Or {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //We will use de morgan law to achieve this
+    //We knwow by de morgan law NOT(A OR B) = (NOTA AND NOTB)
+    //So we will take (NOTA AND NOTB) and then invert the results
+    Not(in= a, out=Nota); //inverting a first and creating a temp pin
+    Not(in= b, out= Notb); //inverting b and creating a temp pin
+    And(a= Nota, b= Notb, out= NotaAndNotb); //Sending inverted pints to AND gate
+    Not(in= NotaAndNotb, out= out); //Finally sending the output of AND gate through an inverter
+}

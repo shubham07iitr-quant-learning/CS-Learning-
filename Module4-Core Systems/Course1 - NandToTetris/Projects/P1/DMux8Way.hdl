@@ -1,0 +1,68 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux8Way.hdl
+/**
+ * 8-way demultiplexor:
+ * [a, b, c, d, e, f, g, h] = [in, 0,  0,  0,  0,  0,  0,  0] if sel = 000
+ *                            [0, in,  0,  0,  0,  0,  0,  0] if sel = 001
+ *                            [0,  0, in,  0,  0,  0,  0,  0] if sel = 010
+ *                            [0,  0,  0, in,  0,  0,  0,  0] if sel = 011
+ *                            [0,  0,  0,  0, in,  0,  0,  0] if sel = 100
+ *                            [0,  0,  0,  0,  0, in,  0,  0] if sel = 101
+ *                            [0,  0,  0,  0,  0,  0, in,  0] if sel = 110
+ *                            [0,  0,  0,  0,  0,  0,  0, in] if sel = 111
+ */
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //Again here we will have 8 separate gates, one for each of the output, expression will be:
+    //Gate(a) = a(in, sel) = In AND NOT(Sel[0]) AND NOT(sel[1]) AND NOT (sel[2])
+    //Gate(b) = b(in, sel) = In AND (Sel[0]) AND NOT(sel[1]) AND NOT (sel[2])
+    //Gate(c) = c(in, sel) = In AND NOT(Sel[0]) AND (sel[1]) AND NOT (sel[2])
+    //Gate(d) = d(in, sel) = In AND (Sel[0]) AND (sel[1]) AND NOT (sel[2])
+    //Gate(e) = e(in, sel) = In AND NOT(Sel[0]) AND NOT(sel[1]) AND (sel[2])
+    //Gate(f) = f(in, sel) = In AND (Sel[0]) AND NOT(sel[1]) AND (sel[2])
+    //Gate(g) = g(in, sel) = In AND NOT(Sel[0]) AND (sel[1]) AND (sel[2])
+    //Gate(h) = b(in, sel) = In AND (Sel[0]) AND (sel[1]) AND  (sel[2])
+    //First let's invert our sel bits
+    Not(in= sel[0], out= Notsel0);
+    Not(in= sel[1], out= Notsel1);
+    Not(in= sel[2], out= Notsel2);
+    //Gate 1 - For output A, we will need 4way AND gates
+    And(a= in, b= Notsel0, out= tempa1);
+    And(a= tempa1, b= Notsel1, out= tempa2);
+    And(a= tempa2, b= Notsel2, out= a);
+    //Gate 2 - For Output B
+    And(a= in, b= sel[0], out= tempb1);
+    And(a= tempb1, b= Notsel1, out= tempb2);
+    And(a= tempb2, b= Notsel2, out= b);
+    //Gate 3 - For Output C
+    And(a= in, b= Notsel0, out= tempc1);
+    And(a= tempc1, b= sel[1], out= tempc2);
+    And(a= tempc2, b= Notsel2, out= c);
+    //Gate 4 - For Output D
+    And(a= in, b= sel[0], out= tempd1);
+    And(a= tempd1, b= sel[1], out= tempd2);
+    And(a= tempd2, b= Notsel2, out= d);
+    //Gate 5 - For Output E
+    And(a= in, b= Notsel0, out= tempe1);
+    And(a= tempe1, b= Notsel1, out= tempe2);
+    And(a= tempe2, b= sel[2], out= e);
+    //Gate 6 - For Output F
+    And(a= in, b= sel[0], out= tempf1);
+    And(a= tempf1, b= Notsel1, out= tempf2);
+    And(a= tempf2, b= sel[2], out= f);
+    //Gate 7 - For Output G
+    And(a= in, b= Notsel0, out= tempg1);
+    And(a= tempg1, b= sel[1], out= tempg2);
+    And(a= tempg2, b= sel[2], out= g);
+    //Gate 8 - For Output H
+    And(a= in, b= sel[0], out= temph1);
+    And(a= temph1, b= sel[1], out= temph2);
+    And(a= temph2, b= sel[2], out= h);
+
+}

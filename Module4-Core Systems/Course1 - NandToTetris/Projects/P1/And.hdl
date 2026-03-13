@@ -1,0 +1,19 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/And.hdl
+/**
+ * And gate:
+ * if (a and b) out = 1, else out = 0 
+ */
+CHIP And {
+    IN a, b;
+    OUT out;
+    
+    PARTS:
+    //// We will use a NAND gate and invert the results
+    Nand(a= a, b= b, out= out1); //We define a temp output from nand gate as out1
+    Not(in= out1, out= out); //Internal pin out1 is sent as input to Not gate and final outout is inverted
+    
+
+}

@@ -1,0 +1,27 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/PC.hdl
+/**
+ * A 16-bit counter.
+ * if      reset(t): out(t+1) = 0
+ * else if load(t):  out(t+1) = in(t)
+ * else if inc(t):   out(t+1) = out(t) + 1
+ * else              out(t+1) = out(t)
+ */
+CHIP Bit {
+    IN in, load;
+    OUT out;
+    
+    PARTS:
+    //// Replace this comment with your code.
+    //So here is the trick. - we will create a simple dff first which will receive input from a mux 
+    //And the mux will receive 2 inputs, one from outside input, and one from the feedback loop into the mux
+    //Selection from the mux will depend on the load bit
+    //Gate 1- A simple dff receiving input from mux, and having some output
+    DFF(in=muxout , out= outdff);
+    //Gate 2 - A mux with 2 inputs, in (main) and 1 feedback from dff
+    Mux(a= outdff, b= in, sel= load, out= muxout);
+    //Gate 3 - And now finally we just send the outdff in an AND gate
+    And(a= outdff, b= true, out= out);
+}

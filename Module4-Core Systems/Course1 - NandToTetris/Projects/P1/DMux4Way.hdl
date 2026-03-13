@@ -1,0 +1,39 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux4Way.hdl
+/**
+ * 4-way demultiplexor:
+ * [a, b, c, d] = [in, 0, 0, 0] if sel = 00
+ *                [0, in, 0, 0] if sel = 01
+ *                [0, 0, in, 0] if sel = 10
+ *                [0, 0, 0, in] if sel = 11
+ */
+CHIP DMux4Way {
+    IN in, sel[2];
+    OUT a, b, c, d;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //If we construct the truth table we will realise we will have the following expression:
+    //Gate(a) = a(in, sel) = In AND NOT(Sel[0]) AND NOT(sel[1])
+    //Gate(b) = a(in, sel) = In AND (Sel[0]) AND NOT(sel[1]) - Because sel[0] is LSB
+    //Gate(c) = a(in, sel) = In AND NOT(Sel[0]) AND (Sel[1]) - because SEL[0] is the LSB
+    //Gate(d) = a(in, sel) = In AND (Sel[0]) AND (Sel[1])
+    //Now Let's create these gates, but first let's create invert gates for select
+    //INVERTING SELECTS
+    Not(in= sel[0] , out= Notsel0);
+    Not(in= sel[1] , out= Notsel1);
+    //Gate 1 for output A
+    And(a= in, b= Notsel0, out= tempouta);
+    And(a= tempouta, b= Notsel1, out= a);
+    //Gate 2 for output B
+    And(a= in, b= sel[0], out= tempoutb);
+    And(a= tempoutb, b= Notsel1, out= b);
+    //Gate 3 for output C
+    And(a= in, b= Notsel0, out= tempoutc);
+    And(a= tempoutc, b= sel[1], out= c);
+    //Gate 4 for output D
+    And(a= in, b= sel[0], out= tempoutd);
+    And(a= tempoutd, b= sel[1] , out= d);
+}

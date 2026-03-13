@@ -1,0 +1,92 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/5/CPU.hdl
+/**
+ * The Hack Central Processing unit (CPU).
+ * Parses the binary code in the instruction input and executes it according to the
+ * Hack machine language specification. In the case of a C-instruction, computes the
+ * function specified by the instruction. If the instruction specifies to read a memory
+ * value, the inM input is expected to contain this value. If the instruction specifies
+ * to write a value to the memory, sets the outM output to this value, sets the addressM
+ * output to the target address, and asserts the writeM output (when writeM = 0, any
+ * value may appear in outM).
+ * If the reset input is 0, computes the address of the next instruction and sets the
+ * pc output to that value. If the reset input is 1, sets pc to 0.
+ * Note: The outM and writeM outputs are combinational: they are affected by the
+ * instruction's execution during the current cycle. The addressM and pc outputs are
+ * clocked: although they are affected by the instruction's execution, they commit to
+ * their new values only in the next cycle.
+ */
+CHIP CPU {
+
+    IN  inM[16],         // M value input  (M = contents of RAM[A])
+        instruction[16], // Instruction for execution
+        reset;           // Signals whether to re-start the current
+                         // program (reset==1) or continue executing
+                         // the current program (reset==0).
+
+    OUT outM[16],        // M value output
+        writeM,          // Write to M? 
+        addressM[15],    // Address in data memory (of M)
+        pc[15];          // address of next instruction
+
+    PARTS:
+	//// Replace this comment with your code.
+    //Let's build our CPU in steps
+    //Refer to architecture on page 95 of our book
+    //INSTRUCTION DECODING- we will try and identify if it is a C or an A instruction
+    //Our instruction type would be c0|x|x|a|c1|c2|c3|c4|c5|d1|d2|d3|j1|j2|j3
+    //For instruction decoding , sel for Mux16 = Not(c0)
+    //And load bit for A register would be = Or(d1, Not(c0))
+    Not(in= instruction[15], out= notc0);
+    Mux16(a= outalu, b= instruction, sel= notc0, out= outaorc); //This is to figure out if ALU output is stored or instruction is stored
+    Or(a= instruction[5], b= notc0, out= loadaregister); //This sets the load bit of A register to 1 when required (either we have A instruciton, or ALU output to be stored)
+    ARegister(in= outaorc, load= loadaregister, out= outaregister);
+    //Let's now solve for INSTRUCTION EXECUTION
+    //We need to identify which comp to carry out, and where to store the comp value
+    //We already knwo that ALU will have one input coming from D register, and the other from either A or M, depending on 'a' or instrucion[12]
+    //Let's first get the D register sorted
+    And(a= instruction[4], b= instruction[15], out= loaddregister); //This ensures we load only if we have C instruction and instruction[4] = 1 or d2. = 1
+    DRegister(in= outalu, load= loaddregister, out= outdregister);
+    //Let's now build the mux to identify where the 2nd input is coming from
+    //We will need to gate this to ensure this is only active when it is a C instruction
+    And(a= instruction[12], b= instruction[15], out= selAorM);
+    Mux16(a= outaregister, b= inM, sel= selAorM, out= outaorin);
+    //Now let's build our ALU, and also put in outM
+    ALU(x= outdregister, y= outaorin, zx= instruction[11], nx= instruction[10], zy= instruction[9], ny= instruction[8], f=instruction[7] , no= instruction[6], out= outalu, zr= outzero , ng= outnegative);
+    Or16(a= outalu, b= false, out= outM);
+    //Now let's define the output for writeM and addressM
+    And(a= instruction[3], b= instruction[15], out= writeM); //We need to ensure we write only if we have c instruction
+    Or16(a= outaregister, b= false, out= tempaddressM, out[0..14] = addressM);
+    //PROGRAM COUNTER - And finally all that is left is figuring out the different jump signals and integrating into PC
+    //Now most importantly we need to figure out when to assert load so that PC value gets updated
+    //We wil use an 8way mux to solve for this , lets see how
+    //In1 mux - false - always - corresponiding to j1j2j3 = 000
+    //In2 mux = when comp > 0, so neg flag = 0 , and zero flag = 0, so =  NOR(neg, zero), corresponding to j1j2j3 = 001
+    //In3 mux = when comp = 0, so = zero flag, corresponding to when j1j2j3 = 010
+    //In4 mux = when comp is non negatvie , so NOT(neg), corresponding to j1j2j3 = 011
+    //In5 mux= when comp is < 0 so simply NEG flag, corresponding to j1j2j3 = 100
+    //In6 mux = when comp not equal to 0, so we use NOT(zero), corresponding to j1j2j3 = 101
+    //In7 mux = comp <= 0, so OR(Neg or Zero flag), corresponding to j1j2j3 = 110
+    //In8 mux = true always, corresponding to j1j2j3 = 111
+    //Let's create these 6 inputs
+    Or(a= outzero, b= outnegative, out= input7);
+    Not(in= input7, out= input2);
+    Not(in= outnegative, out= input4);
+    Not(in= outzero, out= input6);
+    Mux8Way16(a= false, b[0]= input2, b[1..15] = false, c[0]= outzero, c[1..15] = false, d[0]= input4, d[1..15] = false, e[0]= outnegative, e[1..15] = false, f[0]= input6,f[1..15]= false ,g[0] = input7, g[1..15] = false, h= true, sel=instruction[0..2] , out= loadout, out[0] = loadpc);
+    //But we need to gate loadpc only for C instructions
+    And(a= loadpc, b= instruction[15], out= loadpcfinal);
+    //And for inc input, we will simply take the NOR for reset and Load
+    Or(a= reset, b= loadpcfinal, out= orresetloadpc);
+    Not(in= orresetloadpc, out= incpc);
+    //And finally setting up the program counter
+    PC(in=outaregister , load= loadpcfinal, inc= incpc, reset= reset, out= tempoutpc, out[0..14] = pc);
+
+    
+    
+    
+
+
+}

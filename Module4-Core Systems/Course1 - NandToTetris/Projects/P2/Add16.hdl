@@ -1,0 +1,35 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/2/Add16.hdl
+/**
+ * 16-bit adder: Adds two 16-bit two's complement values.
+ * The most significant carry bit is ignored.
+ */
+CHIP Add16 {
+    IN a[16], b[16];
+    OUT out[16];
+
+    PARTS:
+    //// Replace this comment with your code.
+    //Here we will need 16 full adders
+    //First full adder will feature c = false, remaining will have carry over from previous operations
+    //Final carry will be simply ignored
+    FullAdder(a= a[0], b= b[0], c= false, sum=out[0] , carry= tempcarry1);
+    FullAdder(a= a[1], b= b[1], c= tempcarry1, sum= out[1] , carry= tempcarry2);
+    FullAdder(a= a[2], b= b[2], c= tempcarry2, sum= out[2] , carry= tempcarry3);
+    FullAdder(a= a[3], b= b[3], c= tempcarry3, sum= out[3] , carry= tempcarry4);
+    FullAdder(a= a[4], b= b[4], c= tempcarry4, sum= out[4] , carry= tempcarry5);
+    FullAdder(a= a[5], b= b[5], c= tempcarry5, sum= out[5] , carry= tempcarry6);
+    FullAdder(a= a[6], b= b[6], c= tempcarry6, sum= out[6] , carry= tempcarry7);
+    FullAdder(a= a[7], b= b[7], c= tempcarry7, sum= out[7] , carry= tempcarry8);
+    FullAdder(a= a[8], b= b[8], c= tempcarry8, sum= out[8] , carry= tempcarry9);
+    FullAdder(a= a[9], b= b[9], c= tempcarry9, sum= out[9] , carry= tempcarry10);
+    FullAdder(a= a[10], b= b[10], c= tempcarry10, sum= out[10] , carry= tempcarry11);
+    FullAdder(a= a[11], b= b[11], c= tempcarry11, sum= out[11] , carry= tempcarry12);
+    FullAdder(a= a[12], b= b[12], c= tempcarry12, sum= out[12] , carry= tempcarry13);
+    FullAdder(a= a[13], b= b[13], c= tempcarry13, sum= out[13] , carry= tempcarry14);
+    FullAdder(a= a[14], b= b[14], c= tempcarry14, sum= out[14] , carry= tempcarry15);
+    FullAdder(a= a[15], b= b[15], c= tempcarry15, sum= out[15] , carry= tempcarry16);
+    
+}

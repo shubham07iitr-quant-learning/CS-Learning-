@@ -1,0 +1,55 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Mux4Way16.hdl
+/**
+ * 4-way 16-bit multiplexor:
+ * out = a if sel = 00
+ *       b if sel = 01
+ *       c if sel = 10
+ *       d if sel = 11
+ */
+CHIP Mux4Way16 {
+    IN a[16], b[16], c[16], d[16], sel[2];
+    OUT out[16];
+    
+    PARTS:
+    //// Replace this comment with your code.
+    //Ok so as per the truth table we will have the following output expression
+    //f(a[16],b[16],c[16], d[16], sel[2]) = a.sel[0]'sel[1]' for selction of a
+    //OR
+    //f(x) = b.sel[1]'sel[0] - for selection of b
+    //OR
+    //f(x) = c.sel[1]sel[0]' for selection of c
+    //OR
+    //f(x) = d.sel[1].sel[0] - for selection of d
+    //All of the AND and OR operations will be done via 16 bit AND and OR gates
+    //Now it is tricky to invert sel[0] single bit into 16 bits inverted , but we can use Mux16 like below:
+    Mux16(a=true, b=false, sel=sel[0], out=Notsel0); //Inverting into 16 bits of sel[0]
+    Mux16(a=true, b=false, sel=sel[1], out=Notsel1); //Inverting into 16 bits of sel[1]
+    Mux16(a=false, b=true, sel=sel[0], out=sel0); //Converting sel[0] into 16 bits
+    Mux16(a=false, b=true, sel=sel[1], out=sel1); //Converting sel[1] into 16 bits
+    //Gate 1- when input a goes to output, we will need 2 AND gate operations here
+    And16(a=a , b= Notsel0, out= tempa1);
+    And16(a=tempa1 , b= Notsel1, out= finalouta);
+    //Gate 2- when input b goes to output
+    And16(a=b , b= Notsel1, out= tempb1);
+    And16(a=tempb1 , b= sel0, out= finaloutb);
+    //Gate 3- when input c goes to output
+    And16(a=c , b= sel1, out= tempc1);
+    And16(a=tempc1 , b= Notsel0, out= finaloutc);
+    //Gate 4 - when input d goes to output
+    And16(a=d , b= sel1, out= tempd1);
+    And16(a=tempd1 , b= sel0, out= finaloutd);
+    //Finally a 3 way OR gate to transform 4 outputs into a final output
+    Or16(a= finalouta, b= finaloutb, out= tempout1);
+    Or16(a= tempout1, b= finaloutc, out= tempout2);
+    Or16(a= tempout2, b= finaloutd, out= out);
+
+    //Better way to slve for it would be using 3 mux gates
+    ///Mux16(a= a, b= b, sel= sel[0], out= tempout1);
+    ///Mux16(a= c, b= d, sel= sel[0], out= tempout2);
+    //Mux16(a= tempout1, b= tempout2, sel= sel[1], out= out);
+    
+
+}

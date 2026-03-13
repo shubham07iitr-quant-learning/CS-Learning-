@@ -1,0 +1,22 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/DMux.hdl
+/**
+ * Demultiplexor:
+ * [a, b] = [in, 0] if sel = 0
+ *          [0, in] if sel = 1
+ */
+CHIP DMux {
+    IN in, sel;
+    OUT a, b;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //Our function will look like OutA(in) = in AND Not(Select), and OutB(in) = in AND Sel
+    Not(in= sel, out= notsel); //Inverting select bit for output A
+    //Final Output Gate 1.- Which will output a when sel is 0
+    And(a= notsel, b= in, out= a); //We have the condition now that when sel. = 0, outA = in
+    //Final Output Gate 2 - Which will output b when select is 1
+    And(a = sel, b = in, out = b); //We now have the condition that when sel = 0, outB = in
+}

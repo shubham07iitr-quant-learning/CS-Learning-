@@ -1,0 +1,25 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Xor.hdl
+/**
+ * Exclusive-or gate:
+ * if ((a and Not(b)) or (Not(a) and b)) out = 1, else out = 0
+ */
+CHIP Xor {
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //We will use disjunctive Normal form to solve for this 
+    //Our expression can be rewritten as f(A,B) = A'B + AB'
+    //Resolving, we get
+    Not(in= a, out= Nota ); //creating inverted a
+    Not(in= b, out= Notb); //Creating inverted b
+    //Now we will create 2 AND gates
+    And(a= Nota, b= b, out= NotaAndb);//First AND gate for NotA and B
+    And(a= Notb, b= a, out= NotbAnda);//Second AND gate for NotB and A
+    //And finally taking an OR for the two AND outputs
+    Or(a= NotaAndb, b=NotbAnda , out= out); //we finally get our desired output
+}

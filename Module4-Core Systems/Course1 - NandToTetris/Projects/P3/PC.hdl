@@ -1,0 +1,33 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/3/a/PC.hdl
+/**
+ * A 16-bit counter.
+ * if      reset(t): out(t+1) = 0
+ * else if load(t):  out(t+1) = in(t)
+ * else if inc(t):   out(t+1) = out(t) + 1
+ * else              out(t+1) = out(t)
+ */
+CHIP PC {
+    IN in[16], reset, load, inc;
+    OUT out[16];
+    
+    PARTS:
+    //// Replace this comment with your code.
+    //So here is the trick. - we will create a simple Register first , which will be receiving inputs from a mux (similar to what we did in bit)
+    //And the mux will be receive 4 inputs - dff feedback, input (from outside), inc, false (for reset)
+    //And of these 4 inputs, we will select one based on our 3 control signals
+    //Gate 1- input will be from mux, and output will go inside the mux
+    Register(in= muxfinal, load= true, out= outregister);
+    //Gate2 - 1st mix to select from register and inc
+    //But first need to increase outregister
+    Inc16(in= outregister , out=outinc );
+    Mux16(a= outregister, b= outinc, sel= inc, out= muxinc);
+    //Gate 3 - 2nd mux , to select from muxinc and load
+    Mux16(a= muxinc, b= in, sel= load, out= muxload);
+    //Gate 4 - 3rd Mux - to select from muxload and false or reset
+    Mux16(a=muxload , b= false, sel= reset, out= muxfinal);
+    //Gate 5 - And finally an and gate to put things on the output data bus
+    And16(a= outregister, b= true, out= out);
+}

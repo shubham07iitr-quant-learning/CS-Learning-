@@ -1,0 +1,39 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/1/Mux.hdl
+/** 
+ * Multiplexor:
+ * if (sel = 0) out = a, else out = b
+ */
+CHIP Mux {
+    IN a, b, sel;
+    OUT out;
+
+    PARTS:
+    //// Replace this comment with your code.
+    //As per the truth table the output function will look like below:
+    //f(a,b,sel) = (aAND (NotB) AND (NOTsel) ) OR (A And B And (NotC)) OR (NotA AND B AND C) OR (A AND B AND C)
+    // So we will need 4 units of 3way AND gates and one single 4 way OR gate
+    //Gate 1 - A And Not B And Not Sel
+    Not(in= b, out= Notb);
+    Not(in= sel, out=Notsel);
+    And(a= a, b=Notb , out=out1 );
+    And(a= out1, b= Notsel, out= And1);
+    //Gate 2 - A And  B And NOt(Sel) Don't need to create a separate not gate again
+    And(a= a, b= b, out= aAndb );
+    And(a= aAndb, b= Notsel, out= And2 );
+    //Gate 3 - Not(A) And  B And Sel; Need to create one not for A
+    Not(in= a, out= Nota);
+    And(a= Nota, b= b, out= out2);
+    And(a= out2, b=sel , out= And3);
+    //Gate 4 - A And B And Sel
+    And(a= a, b= b, out= out3);
+    And(a= out3, b= sel, out= And4);
+    //Gate5 - Finally we push all the 4 gates through an OR
+    Or(a= And1, b= And2, out= tempout1);
+    Or(a= tempout1, b= And3, out= tempout2);
+    Or(a= tempout2, b= And4, out= out);
+    
+    
+}
