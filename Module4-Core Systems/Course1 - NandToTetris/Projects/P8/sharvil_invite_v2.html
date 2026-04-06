@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sharvil's 5th Birthday Invite</title>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Fredoka+One&family=Nunito:wght@600;700;800;900&family=Oswald:wght@700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  background: #0a0f2e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* ===================== CARD ===================== */
+.card {
+  width: 480px;
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  /* Aged parchment outer border */
+  background: linear-gradient(145deg, #e8d5a3, #d4bc82, #c9a85c, #d4bc82, #e8d5a3);
+  padding: 8px;
+  box-shadow:
+    0 0 0 2px #8b6914,
+    0 0 0 4px #c9a850,
+    0 0 0 6px #8b6914,
+    0 30px 80px rgba(0,0,0,0.8),
+    0 0 60px rgba(200,160,60,0.3);
+}
+
+/* Worn corner ornaments */
+.card::before, .card::after {
+  content: '✦';
+  position: absolute;
+  font-size: 18px;
+  color: #8b6914;
+  z-index: 100;
+  text-shadow: 0 0 6px rgba(200,160,60,0.6);
+}
+.card::before { top: 14px; left: 14px; }
+.card::after  { top: 14px; right: 14px; }
+
+.card-inner {
+  border-radius: 13px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ===================== TOP PARCHMENT HEADER ===================== */
+.header {
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(255,240,180,0.4) 0%, transparent 70%),
+    linear-gradient(180deg, #f0dfa0 0%, #e2ca80 40%, #d4bc70 100%);
+  border-bottom: 3px solid #8b6914;
+  padding: 10px 50px 8px;
+  text-align: center;
+  position: relative;
+  /* Aged texture via noise */
+  filter: contrast(1.02);
+}
+
+/* Parchment noise texture */
+.header::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+  opacity: 0.5;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.issue-badge {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  width: 52px;
+  height: 52px;
+  background: radial-gradient(circle at 40% 35%, #f5c842, #c8960a);
+  border: 2.5px solid #7a5a08;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 4px rgba(255,255,255,0.3), 0 3px 8px rgba(0,0,0,0.4);
+  z-index: 10;
+}
+.issue-badge .issue-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 8.5px;
+  color: #3a2800;
+  line-height: 1;
+  letter-spacing: 0.3px;
+}
+.issue-badge .issue-num {
+  font-family: 'Bangers', cursive;
+  font-size: 15px;
+  color: #3a2800;
+  line-height: 1;
+}
+
+.header-stars {
+  font-family: 'Fredoka One', cursive;
+  font-size: 12px;
+  letter-spacing: 6px;
+  color: #4a3200;
+  margin-bottom: 2px;
+}
+.header-calling {
+  font-family: 'Bangers', cursive;
+  font-size: 16px;
+  letter-spacing: 8px;
+  color: #3a2800;
+  text-transform: uppercase;
+  margin-bottom: -2px;
+}
+.header-superheroes {
+  font-family: 'Bangers', cursive;
+  font-size: 58px;
+  letter-spacing: 2px;
+  line-height: 1;
+  /* Metallic gold gradient text */
+  background: linear-gradient(180deg, #ffe066 0%, #f5c000 40%, #c8960a 70%, #f5c000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(3px 3px 0px #1a2a6c) drop-shadow(5px 5px 0px rgba(0,0,0,0.4));
+  position: relative;
+  z-index: 1;
+}
+
+/* ===================== SKY SECTION ===================== */
+.sky {
+  position: relative;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 30%, #2a4fa8 0%, #1a3580 30%, #0e1f60 60%, #060d30 100%);
+  min-height: 380px;
+  overflow: hidden;
+}
+
+/* Stars layer - canvas-drawn look via CSS */
+.stars-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Shooting rays from center */
+.rays {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  z-index: 2;
+  pointer-events: none;
+}
+.rays::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg, rgba(255,220,80,0.06) 5deg, transparent 10deg,
+    transparent 20deg, rgba(255,220,80,0.08) 25deg, transparent 30deg,
+    transparent 40deg, rgba(255,220,80,0.05) 45deg, transparent 50deg,
+    transparent 60deg, rgba(255,220,80,0.07) 65deg, transparent 70deg,
+    transparent 80deg, rgba(255,220,80,0.06) 85deg, transparent 90deg,
+    transparent 100deg, rgba(255,220,80,0.08) 105deg, transparent 110deg,
+    transparent 120deg, rgba(255,220,80,0.05) 125deg, transparent 130deg,
+    transparent 140deg, rgba(255,220,80,0.07) 145deg, transparent 150deg,
+    transparent 160deg, rgba(255,220,80,0.06) 165deg, transparent 170deg,
+    transparent 180deg, rgba(255,220,80,0.08) 185deg, transparent 190deg,
+    transparent 200deg, rgba(255,220,80,0.05) 205deg, transparent 210deg,
+    transparent 220deg, rgba(255,220,80,0.07) 225deg, transparent 230deg,
+    transparent 240deg, rgba(255,220,80,0.06) 245deg, transparent 250deg,
+    transparent 260deg, rgba(255,220,80,0.08) 265deg, transparent 270deg,
+    transparent 280deg, rgba(255,220,80,0.05) 285deg, transparent 290deg,
+    transparent 300deg, rgba(255,220,80,0.07) 305deg, transparent 310deg,
+    transparent 320deg, rgba(255,220,80,0.06) 325deg, transparent 330deg,
+    transparent 340deg, rgba(255,220,80,0.08) 345deg, transparent 350deg,
+    transparent 360deg
+  );
+  border-radius: 50%;
+  animation: rayspin 20s linear infinite;
+}
+@keyframes rayspin { to { transform: rotate(360deg); } }
+
+/* Central glow */
+.center-glow {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle,
+    rgba(255,230,100,0.35) 0%,
+    rgba(100,160,255,0.15) 40%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  z-index: 3;
+  animation: centerPulse 3s ease-in-out infinite alternate;
+}
+@keyframes centerPulse {
+  from { transform: translate(-50%,-50%) scale(1); opacity: 0.8; }
+  to   { transform: translate(-50%,-50%) scale(1.2); opacity: 1; }
+}
+
+/* Moon crescent */
+.moon {
+  position: absolute;
+  top: 14px;
+  left: 30px;
+  font-size: 30px;
+  z-index: 4;
+  filter: drop-shadow(0 0 8px rgba(255,220,80,0.7));
+  animation: moonGlow 4s ease-in-out infinite alternate;
+}
+@keyframes moonGlow {
+  from { filter: drop-shadow(0 0 6px rgba(255,220,80,0.5)); }
+  to   { filter: drop-shadow(0 0 14px rgba(255,220,80,0.9)); }
+}
+
+/* Name + Age */
+.hero-text {
+  position: relative;
+  z-index: 5;
+  text-align: center;
+  padding-top: 22px;
+}
+
+.sharvil-name {
+  font-family: 'Bangers', cursive;
+  font-size: 56px;
+  letter-spacing: 3px;
+  line-height: 1;
+  background: linear-gradient(180deg, #ffe87a 0%, #f5c000 50%, #c88000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(3px 3px 0 #0a1840) drop-shadow(5px 5px 8px rgba(0,0,0,0.5));
+  animation: nameFloat 4s ease-in-out infinite;
+}
+@keyframes nameFloat {
+  0%,100% { transform: translateY(0px); }
+  50% { transform: translateY(-4px); }
+}
+
+.is-turning {
+  font-family: 'Fredoka One', cursive;
+  font-size: 20px;
+  color: #c8dcff;
+  letter-spacing: 1px;
+  margin: -2px 0 0;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+
+.age-wrap {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.age-num {
+  font-family: 'Bangers', cursive;
+  font-size: 130px;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #8ad4ff 0%, #4a90d9 40%, #1a5fa8 80%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter:
+    drop-shadow(4px 4px 0 #0a1840)
+    drop-shadow(8px 8px 0 rgba(0,0,0,0.35))
+    drop-shadow(0 0 30px rgba(100,160,255,0.4));
+  position: relative;
+  z-index: 2;
+  display: block;
+  text-align: center;
+}
+
+/* POW BAM row */
+.powbam-row {
+  position: relative;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 0 0 6px;
+}
+
+.burst-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 72px;
+}
+.burst-badge svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.burst-badge .badge-text {
+  position: relative;
+  z-index: 2;
+  font-family: 'Bangers', cursive;
+  font-size: 22px;
+  color: #cc1a1a;
+  text-shadow: 1px 1px 0 rgba(255,255,255,0.3), -1px -1px 0 rgba(0,0,0,0.2);
+  letter-spacing: 1px;
+  animation: badgePop 1.5s ease-in-out infinite alternate;
+}
+@keyframes badgePop {
+  from { transform: scale(1) rotate(-3deg); }
+  to   { transform: scale(1.08) rotate(3deg); }
+}
+.burst-badge:nth-child(3) .badge-text { animation-delay: 0.75s; }
+
+.starburst-center {
+  position: relative;
+  z-index: 6;
+}
+
+/* SVG Superhero characters drawn in CSS/SVG */
+.characters-row {
+  position: relative;
+  height: 150px;
+  z-index: 6;
+  margin-top: -10px;
+}
+
+/* City skyline SVG */
+.skyline-svg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+/* Lightning bolts */
+.bolt-left, .bolt-right {
+  position: absolute;
+  z-index: 7;
+  font-size: 28px;
+  filter: drop-shadow(0 0 8px #ffd700);
+  animation: boltFlash 2s ease-in-out infinite;
+}
+.bolt-left  { left: 16px; top: 60px; }
+.bolt-right { right: 16px; top: 60px; animation-delay: 0.8s; }
+@keyframes boltFlash {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.9); }
+}
+
+/* Small bolts corners */
+.bolt-sm {
+  position: absolute;
+  font-size: 18px;
+  filter: drop-shadow(0 0 5px #ffd700);
+  z-index: 7;
+  animation: boltFlash 2.5s ease-in-out infinite;
+}
+
+/* Confetti dots */
+.confetti-dot {
+  position: absolute;
+  border-radius: 2px;
+  z-index: 5;
+  animation: confettiFloat linear infinite;
+}
+@keyframes confettiFloat {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(60px) rotate(360deg); opacity: 0; }
+}
+
+/* Flying hero figures (SVG based) */
+.hero-fig {
+  position: absolute;
+  z-index: 8;
+  animation: heroFly 3s ease-in-out infinite;
+  filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.5));
+}
+@keyframes heroFly {
+  0%,100% { transform: translateY(0) rotate(var(--rot,0deg)); }
+  50% { transform: translateY(-8px) rotate(calc(var(--rot,0deg) + 3deg)); }
+}
+
+/* ===================== BOTTOM PARCHMENT ===================== */
+.bottom {
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(255,240,180,0.3) 0%, transparent 70%),
+    linear-gradient(180deg, #d4bc70 0%, #e2ca80 30%, #f0dfa0 70%, #ede0aa 100%);
+  border-top: 3px solid #8b6914;
+  padding: 18px 24px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Parchment texture on bottom */
+.bottom::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E");
+  opacity: 0.6;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.bottom-corners::before,
+.bottom-corners::after {
+  content: '✦';
+  position: absolute;
+  font-size: 14px;
+  color: #8b6914;
+  z-index: 10;
+}
+.bottom-corners::before { bottom: 8px; left: 10px; }
+.bottom-corners::after  { bottom: 8px; right: 10px; }
+
+.date-block {
+  text-align: center;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 2;
+}
+.date-day-label {
+  font-family: 'Bangers', cursive;
+  font-size: 18px;
+  letter-spacing: 7px;
+  color: #2a1a00;
+  margin-bottom: -2px;
+}
+.date-main-text {
+  font-family: 'Bangers', cursive;
+  font-size: 52px;
+  letter-spacing: 3px;
+  color: #1a0f00;
+  line-height: 1;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.15);
+}
+
+/* Ornate divider */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 14px;
+  position: relative;
+  z-index: 2;
+}
+.divider-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #8b6914, transparent);
+}
+.divider-star { font-size: 14px; color: #8b6914; }
+
+/* Detail rows */
+.detail-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
+  background: rgba(255,255,255,0.45);
+  border: 1.5px solid rgba(139,105,20,0.35);
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+.detail-icon-box {
+  width: 38px;
+  height: 38px;
+  background: linear-gradient(135deg, #1a2a6c, #2563ab);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+  border: 1.5px solid rgba(255,255,255,0.2);
+}
+
+.detail-text-col { flex: 1; }
+.detail-label {
+  font-family: 'Fredoka One', cursive;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: #2563ab;
+  margin-bottom: 2px;
+}
+.detail-value {
+  font-family: 'Nunito', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  color: #1a0f00;
+  line-height: 1.2;
+}
+.detail-sub {
+  font-family: 'Nunito', sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #5a4020;
+  margin-top: 1px;
+}
+
+/* RSVP row - special styling */
+.rsvp-row {
+  background: linear-gradient(135deg, #1a2a6c 0%, #2a3d8f 100%);
+  border: 2px solid #f5c000;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+.rsvp-row .detail-label { color: #f5c000; }
+.rsvp-row .detail-value { color: #ffffff; }
+.rsvp-row .detail-sub { color: rgba(255,255,255,0.65); }
+.rsvp-row .detail-icon-box {
+  background: linear-gradient(135deg, #f5c000, #c8960a);
+  border: 1.5px solid rgba(255,255,255,0.3);
+}
+
+/* CTA pill */
+.cta-pill {
+  position: relative;
+  z-index: 2;
+  margin: 14px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1a7a4a 0%, #22a860 50%, #1a7a4a 100%);
+  border-radius: 40px;
+  padding: 11px 24px;
+  border: 2.5px solid #f5c000;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.35), 0 0 20px rgba(34,168,96,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  cursor: default;
+}
+.cta-pill-text {
+  font-family: 'Bangers', cursive;
+  font-size: 24px;
+  letter-spacing: 3px;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+}
+.cta-bolt {
+  font-size: 20px;
+  filter: drop-shadow(0 0 6px #ffd700);
+  animation: boltFlash 1.5s ease-in-out infinite;
+}
+
+.tagline {
+  text-align: center;
+  font-family: 'Nunito', sans-serif;
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 700;
+  color: #5a4020;
+  margin-top: 10px;
+  letter-spacing: 0.5px;
+  position: relative;
+  z-index: 2;
+  opacity: 0.8;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-inner">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+      <div class="issue-badge">
+        <span class="issue-label">ISSUE</span>
+        <span class="issue-num">#5</span>
+      </div>
+      <div class="header-stars">★ &nbsp; ★</div>
+      <div class="header-calling">Calling All</div>
+      <div class="header-superheroes">SUPERHEROES!</div>
+    </div>
+
+    <!-- ===== SKY ===== -->
+    <div class="sky">
+
+      <canvas class="stars-layer" id="starsCanvas" width="480" height="380"></canvas>
+      <div class="rays"></div>
+      <div class="center-glow"></div>
+      <div class="moon">🌙</div>
+
+      <!-- Lightning bolts sides -->
+      <div class="bolt-left">⚡</div>
+      <div class="bolt-right">⚡</div>
+      <div class="bolt-sm" style="left:10px; bottom:55px; animation-delay:1s;">⚡</div>
+      <div class="bolt-sm" style="right:10px; bottom:55px; animation-delay:1.6s;">⚡</div>
+
+      <!-- Name + Age -->
+      <div class="hero-text">
+        <div class="sharvil-name">Sharvil</div>
+        <div class="is-turning">is turning</div>
+        <div class="age-num">5!</div>
+      </div>
+
+      <!-- POW BAM -->
+      <div class="powbam-row">
+        <!-- POW -->
+        <div class="burst-badge">
+          <svg viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M45 4 L55 28 L80 20 L66 42 L88 52 L62 54 L68 78 L45 64 L22 78 L28 54 L2 52 L24 42 L10 20 L35 28 Z" fill="#ffe44d" stroke="#c0392b" stroke-width="2.5"/>
+          </svg>
+          <span class="badge-text">POW!</span>
+        </div>
+
+        <!-- Center burst -->
+        <div class="starburst-center">
+          <svg width="62" height="62" viewBox="0 0 62 62" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="burstGrad" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#fff8c0"/>
+                <stop offset="60%" stop-color="#ffe066"/>
+                <stop offset="100%" stop-color="#f5c000"/>
+              </radialGradient>
+            </defs>
+            <polygon points="31,3 34.5,21 50,12 42,28 60,31 42,34 50,50 34.5,41 31,59 27.5,41 12,50 20,34 2,31 20,28 12,12 27.5,21" fill="url(#burstGrad)" stroke="#c8960a" stroke-width="1.5"/>
+          </svg>
+        </div>
+
+        <!-- BAM -->
+        <div class="burst-badge">
+          <svg viewBox="0 0 90 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M45 4 L55 28 L80 20 L66 42 L88 52 L62 54 L68 78 L45 64 L22 78 L28 54 L2 52 L24 42 L10 20 L35 28 Z" fill="#ffe44d" stroke="#c0392b" stroke-width="2.5"/>
+          </svg>
+          <span class="badge-text">BAM!</span>
+        </div>
+      </div>
+
+      <!-- Hero Characters (SVG) -->
+      <div class="characters-row">
+        <!-- Top-left flying hero (boy, blue/yellow) -->
+        <svg class="hero-fig" style="width:80px;top:5px;left:14px;--rot:-12deg;" viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cape -->
+          <ellipse cx="40" cy="55" rx="28" ry="18" fill="#e63030" opacity="0.9" transform="rotate(-15,40,55)"/>
+          <!-- Body -->
+          <rect x="28" y="42" width="24" height="28" rx="6" fill="#1a5abf"/>
+          <!-- S emblem -->
+          <circle cx="40" cy="54" r="8" fill="#f5c000"/>
+          <text x="40" y="58" text-anchor="middle" font-family="Bangers" font-size="11" fill="#1a2a6c">S</text>
+          <!-- Head -->
+          <circle cx="40" cy="35" r="14" fill="#f5c8a0"/>
+          <!-- Hair -->
+          <path d="M27 30 Q30 18 40 20 Q50 18 53 30" fill="#1a1a1a"/>
+          <!-- Mask -->
+          <rect x="30" y="30" width="20" height="8" rx="4" fill="#1a5abf" opacity="0.85"/>
+          <!-- Fist -->
+          <circle cx="62" cy="50" r="8" fill="#f5c8a0"/>
+          <!-- Legs -->
+          <rect x="30" y="68" width="8" height="16" rx="4" fill="#1a5abf"/>
+          <rect x="42" y="68" width="8" height="16" rx="4" fill="#1a5abf"/>
+          <!-- Boots -->
+          <rect x="29" y="80" width="10" height="6" rx="3" fill="#c0392b"/>
+          <rect x="41" y="80" width="10" height="6" rx="3" fill="#c0392b"/>
+        </svg>
+
+        <!-- Top-right flying girl (green outfit) -->
+        <svg class="hero-fig" style="width:76px;top:5px;right:14px;--rot:10deg;animation-delay:1s;" viewBox="0 0 80 90" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cape -->
+          <ellipse cx="40" cy="55" rx="26" ry="16" fill="#e8a030" opacity="0.9" transform="rotate(12,40,55)"/>
+          <!-- Body -->
+          <rect x="28" y="42" width="24" height="28" rx="6" fill="#2a8a3a"/>
+          <!-- Star emblem -->
+          <circle cx="40" cy="54" r="8" fill="#ffe066"/>
+          <text x="40" y="58" text-anchor="middle" font-family="Bangers" font-size="12" fill="#2a8a3a">★</text>
+          <!-- Head -->
+          <circle cx="40" cy="35" r="13" fill="#f5c8a0"/>
+          <!-- Hair (long, dark) -->
+          <path d="M28 32 Q30 20 40 22 Q50 20 52 32 L55 56 Q50 58 45 52 L40 70 L35 52 Q30 58 25 56 Z" fill="#1a1a1a" opacity="0.9"/>
+          <!-- Pointing arm -->
+          <line x1="52" y1="52" x2="68" y2="44" stroke="#f5c8a0" stroke-width="7" stroke-linecap="round"/>
+          <circle cx="68" cy="44" r="7" fill="#f5c8a0"/>
+          <!-- Legs -->
+          <rect x="30" y="68" width="8" height="14" rx="4" fill="#2a8a3a"/>
+          <rect x="42" y="68" width="8" height="14" rx="4" fill="#2a8a3a"/>
+        </svg>
+
+        <!-- Bottom-left punching hero (red mask, blue) -->
+        <svg class="hero-fig" style="width:74px;bottom:8px;left:20px;--rot:-6deg;animation-delay:0.5s;" viewBox="0 0 80 85" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cape -->
+          <ellipse cx="38" cy="52" rx="24" ry="15" fill="#c0392b" opacity="0.85" transform="rotate(-10,38,52)"/>
+          <!-- Body -->
+          <rect x="27" y="40" width="22" height="26" rx="5" fill="#1a5abf"/>
+          <!-- Chevron/bolt -->
+          <polygon points="38,46 44,52 38,58 32,52" fill="#f5c000"/>
+          <!-- Head -->
+          <circle cx="38" cy="32" r="13" fill="#f5c8a0"/>
+          <!-- Hair black -->
+          <path d="M26 28 Q28 17 38 19 Q48 17 50 28" fill="#1a1a1a"/>
+          <!-- Red mask -->
+          <path d="M26 30 Q32 26 38 28 Q44 26 50 30 Q48 36 38 34 Q28 36 26 30Z" fill="#c0392b" opacity="0.9"/>
+          <!-- Punching fist big -->
+          <circle cx="18" cy="46" r="10" fill="#f5c8a0" stroke="#f5c8a0" stroke-width="1"/>
+          <!-- Legs -->
+          <rect x="29" y="64" width="8" height="14" rx="4" fill="#1a5abf"/>
+          <rect x="41" y="64" width="8" height="14" rx="4" fill="#1a5abf"/>
+          <!-- Boots red -->
+          <rect x="28" y="74" width="10" height="5" rx="2.5" fill="#c0392b"/>
+          <rect x="40" y="74" width="10" height="5" rx="2.5" fill="#c0392b"/>
+        </svg>
+
+        <!-- Bottom-right flash/speed hero (red/yellow) -->
+        <svg class="hero-fig" style="width:72px;bottom:8px;right:20px;--rot:8deg;animation-delay:1.5s;" viewBox="0 0 78 85" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body -->
+          <rect x="25" y="38" width="26" height="28" rx="5" fill="#c0392b"/>
+          <!-- Lightning bolt emblem -->
+          <polygon points="44,42 36,54 42,54 34,66 44,52 38,52" fill="#f5c000"/>
+          <!-- Head -->
+          <circle cx="38" cy="30" r="13" fill="#f5c8a0"/>
+          <!-- Red helmet -->
+          <path d="M26 28 Q28 16 38 17 Q48 16 50 28 Q48 24 38 25 Q28 24 26 28Z" fill="#c0392b"/>
+          <!-- Wing ornaments on helmet -->
+          <path d="M26 26 L18 22 L24 28Z" fill="#f5c000"/>
+          <path d="M50 26 L58 22 L52 28Z" fill="#f5c000"/>
+          <!-- Running arm -->
+          <line x1="24" y1="50" x2="12" y2="42" stroke="#f5c8a0" stroke-width="7" stroke-linecap="round"/>
+          <!-- Legs running -->
+          <rect x="26" y="64" width="9" height="14" rx="4" fill="#c0392b" transform="rotate(-10,30,71)"/>
+          <rect x="40" y="62" width="9" height="14" rx="4" fill="#c0392b" transform="rotate(15,45,69)"/>
+          <!-- Boots -->
+          <ellipse cx="30" cy="77" rx="7" ry="4" fill="#8b1a1a"/>
+          <ellipse cx="46" cy="75" rx="7" ry="4" fill="#8b1a1a"/>
+        </svg>
+
+        <!-- CENTER main hero (Superman-style kid, bigger) -->
+        <svg class="hero-fig" style="width:100px;bottom:0;left:50%;transform:translateX(-50%);animation:none;--rot:0deg;" viewBox="0 0 100 110" xmlns="http://www.w3.org/2000/svg">
+          <!-- Cape dramatic -->
+          <path d="M35 55 Q20 80 15 100 Q35 90 50 88 Q65 90 85 100 Q80 80 65 55Z" fill="#c0392b" opacity="0.95"/>
+          <path d="M38 50 Q25 70 20 90 Q35 82 50 80 Q65 82 80 90 Q75 70 62 50Z" fill="#e63030"/>
+          <!-- Body (blue suit) -->
+          <rect x="30" y="48" width="40" height="36" rx="8" fill="#1a5abf"/>
+          <!-- Red belt -->
+          <rect x="28" y="72" width="44" height="8" rx="4" fill="#c0392b"/>
+          <rect x="44" y="70" width="12" height="12" rx="3" fill="#f5c000"/>
+          <!-- S emblem shield -->
+          <path d="M38 54 Q50 50 62 54 L62 66 Q50 72 38 66 Z" fill="#f5c000"/>
+          <text x="50" y="65" text-anchor="middle" font-family="Bangers" font-size="16" fill="#1a2a6c">S</text>
+          <!-- Head -->
+          <circle cx="50" cy="38" r="18" fill="#f5c8a0"/>
+          <!-- Hair dark swoosh -->
+          <path d="M33 33 Q36 18 50 20 Q64 18 67 33 Q60 22 50 24 Q40 22 33 33Z" fill="#1a1a1a"/>
+          <path d="M50 20 Q52 15 55 18" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round" fill="none"/>
+          <!-- Eyes -->
+          <circle cx="43" cy="38" r="3.5" fill="white"/>
+          <circle cx="57" cy="38" r="3.5" fill="white"/>
+          <circle cx="44" cy="38" r="2" fill="#3a2a10"/>
+          <circle cx="58" cy="38" r="2" fill="#3a2a10"/>
+          <!-- Smile -->
+          <path d="M44 45 Q50 50 56 45" stroke="#8b4020" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Arms on hips -->
+          <rect x="16" y="52" width="16" height="10" rx="5" fill="#1a5abf" transform="rotate(-15,24,57)"/>
+          <rect x="68" y="52" width="16" height="10" rx="5" fill="#1a5abf" transform="rotate(15,76,57)"/>
+          <circle cx="18" cy="58" r="8" fill="#f5c8a0"/>
+          <circle cx="82" cy="58" r="8" fill="#f5c8a0"/>
+          <!-- Legs -->
+          <rect x="33" y="82" width="14" height="20" rx="6" fill="#1a5abf"/>
+          <rect x="53" y="82" width="14" height="20" rx="6" fill="#1a5abf"/>
+          <!-- Boots -->
+          <rect x="31" y="96" width="16" height="10" rx="5" fill="#c0392b"/>
+          <rect x="51" y="96" width="16" height="10" rx="5" fill="#c0392b"/>
+          <!-- Ground glow -->
+          <ellipse cx="50" cy="108" rx="30" ry="6" fill="rgba(100,160,255,0.15)"/>
+        </svg>
+      </div>
+
+      <!-- City Skyline SVG -->
+      <svg class="skyline-svg" viewBox="0 0 480 120" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1a2a6c" stop-opacity="0.7"/>
+            <stop offset="100%" stop-color="#0a1840" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <!-- Background buildings -->
+        <g fill="url(#skyGrad)">
+          <rect x="0" y="60" width="18" height="60"/>
+          <rect x="20" y="40" width="22" height="80"/>
+          <rect x="28" y="50" width="8" height="4"/><!-- antenna -->
+          <rect x="44" y="55" width="16" height="65"/>
+          <rect x="62" y="30" width="26" height="90"/>
+          <rect x="70" y="22" width="4" height="12"/>
+          <rect x="90" y="48" width="20" height="72"/>
+          <rect x="112" y="35" width="28" height="85"/>
+          <rect x="119" y="27" width="3" height="12"/>
+          <rect x="142" y="52" width="18" height="68"/>
+          <rect x="162" y="42" width="22" height="78"/>
+          <rect x="186" y="58" width="16" height="62"/>
+          <rect x="204" y="38" width="30" height="82"/>
+          <rect x="215" y="28" width="4" height="14"/>
+          <rect x="236" y="54" width="18" height="66"/>
+          <rect x="256" y="44" width="24" height="76"/>
+          <rect x="282" y="36" width="26" height="84"/>
+          <rect x="293" y="26" width="3" height="14"/>
+          <rect x="310" y="55" width="20" height="65"/>
+          <rect x="332" y="40" width="22" height="80"/>
+          <rect x="356" y="50" width="18" height="70"/>
+          <rect x="376" y="34" width="28" height="86"/>
+          <rect x="386" y="24" width="4" height="14"/>
+          <rect x="406" y="56" width="16" height="64"/>
+          <rect x="424" y="44" width="24" height="76"/>
+          <rect x="450" y="38" width="30" height="82"/>
+          <rect x="462" y="28" width="3" height="14"/>
+        </g>
+        <!-- Window lights -->
+        <g fill="rgba(255,240,120,0.4)" opacity="0.8">
+          <rect x="65" y="40" width="3" height="3"/>
+          <rect x="71" y="36" width="3" height="3"/>
+          <rect x="65" y="48" width="3" height="3"/>
+          <rect x="76" y="40" width="3" height="3"/>
+          <rect x="115" y="45" width="3" height="3"/>
+          <rect x="122" y="39" width="3" height="3"/>
+          <rect x="129" y="45" width="3" height="3"/>
+          <rect x="207" y="48" width="3" height="3"/>
+          <rect x="214" y="42" width="3" height="3"/>
+          <rect x="221" y="48" width="3" height="3"/>
+          <rect x="285" y="46" width="3" height="3"/>
+          <rect x="292" y="40" width="3" height="3"/>
+          <rect x="379" y="44" width="3" height="3"/>
+          <rect x="386" y="38" width="3" height="3"/>
+          <rect x="393" y="44" width="3" height="3"/>
+          <rect x="453" y="48" width="3" height="3"/>
+          <rect x="460" y="42" width="3" height="3"/>
+        </g>
+      </svg>
+
+    </div><!-- end sky -->
+
+    <!-- ===== BOTTOM DETAILS ===== -->
+    <div class="bottom">
+      <div class="bottom-corners"></div>
+
+      <div class="date-block">
+        <div class="date-day-label">FRIDAY</div>
+        <div class="date-main-text">APRIL 3RD</div>
+      </div>
+
+      <div class="divider">
+        <div class="divider-line"></div>
+        <span class="divider-star">✦</span>
+        <div class="divider-line"></div>
+      </div>
+
+      <!-- Time -->
+      <div class="detail-row">
+        <div class="detail-icon-box">⏰</div>
+        <div class="detail-text-col">
+          <div class="detail-label">Mission Launch</div>
+          <div class="detail-value">5:30 PM onwards</div>
+        </div>
+      </div>
+
+      <!-- Venue -->
+      <div class="detail-row">
+        <div class="detail-icon-box">📍</div>
+        <div class="detail-text-col">
+          <div class="detail-label">HQ Location</div>
+          <div class="detail-value">The Fern, Tonk Road</div>
+          <div class="detail-sub">Jaipur, Rajasthan</div>
+        </div>
+      </div>
+
+      <!-- RSVP -->
+      <div class="detail-row rsvp-row">
+        <div class="detail-icon-box">📲</div>
+        <div class="detail-text-col">
+          <div class="detail-label">⚡ RSVP to</div>
+          <div class="detail-value">Survi &amp; Shubham</div>
+          <div class="detail-sub">Confirm your mission status!</div>
+        </div>
+      </div>
+
+      <!-- CTA -->
+      <div class="cta-pill">
+        <span class="cta-bolt">⚡</span>
+        <span class="cta-pill-text">YOU'RE INVITED!</span>
+        <span class="cta-bolt" style="animation-delay:0.75s;">⚡</span>
+      </div>
+
+      <div class="tagline">Suit up, heroes — adventure awaits! 🦸‍♂️</div>
+
+    </div>
+
+  </div><!-- end card-inner -->
+</div><!-- end card -->
+
+<script>
+// Draw stars on canvas
+const canvas = document.getElementById('starsCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 480;
+canvas.height = 380;
+
+const stars = [];
+for (let i = 0; i < 80; i++) {
+  stars.push({
+    x: Math.random() * 480,
+    y: Math.random() * 250,
+    r: Math.random() * 2.2 + 0.4,
+    alpha: Math.random() * 0.7 + 0.3,
+    speed: Math.random() * 0.02 + 0.005
+  });
+}
+
+// Draw scattered confetti in sky
+const confettiColors = ['#ff6b6b','#ffd700','#6bcfff','#ff9ff3','#54e3b8'];
+
+function drawStars(t) {
+  ctx.clearRect(0, 0, 480, 380);
+  stars.forEach(s => {
+    const alpha = s.alpha * (0.6 + 0.4 * Math.sin(t * s.speed * 60));
+    ctx.beginPath();
+    ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+    ctx.fill();
+  });
+  // Confetti dots
+  const confetti = [
+    {x:80, y:110, w:6, h:4, color:'#ff6b6b', rot:0.3},
+    {x:150, y:80, w:5, h:3, color:'#ffd700', rot:-0.6},
+    {x:320, y:95, w:6, h:4, color:'#6bcfff', rot:0.8},
+    {x:380, y:70, w:5, h:3, color:'#ff9ff3', rot:-0.4},
+    {x:200, y:130, w:4, h:3, color:'#54e3b8', rot:1.0},
+    {x:260, y:85, w:5, h:4, color:'#ff6b6b', rot:-0.2},
+    {x:420, y:120, w:6, h:3, color:'#ffd700', rot:0.5},
+  ];
+  confetti.forEach(c => {
+    ctx.save();
+    ctx.translate(c.x, c.y + 10 * Math.sin(t * 0.5 + c.rot));
+    ctx.rotate(c.rot + t * 0.3);
+    ctx.fillStyle = c.color;
+    ctx.globalAlpha = 0.7;
+    ctx.fillRect(-c.w/2, -c.h/2, c.w, c.h);
+    ctx.restore();
+  });
+  requestAnimationFrame(t2 => drawStars(t2 / 1000));
+}
+drawStars(0);
+</script>
+</body>
+</html>

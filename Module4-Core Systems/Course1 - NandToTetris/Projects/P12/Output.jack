@@ -1,0 +1,34 @@
+//A library of functions for displaying characters. The class assumes a character-oriented screen
+//consisting of 23 rows (indexed 0...22, top to bottom) of 64 characters each (indexed 0...63, left to
+//right). The top left character location on the screen is indexed (0,0). Each character is displayed
+//by rendering on the screen a rectangular image, 11 pixels high and 8 pixels wide (which include
+//margins for inter-character and inter-row spacing). The bitmap images of all the characters can be
+//found by looking up the given code of the Output class. A visible cursor, implemented as a small
+//filled square, indicates where the next character will be displayed.
+
+
+class Output {
+
+    //Purpose:
+    function void init() {}
+
+
+    //Purpose: Moves the cursor to the j-th column of the i-th roww and erases the character displayed there.
+    function void moveCursor(int i, int j) {} 
+
+    //Purpose: Displays the character at the cursor location, and advances the cursor one column forward.
+    function void printChar(char c){}
+    
+    //Purpose: Displays the string starting at the cursor location, and advances the cursor appropriately.
+    function void printString(String s): 
+    
+    //Purpose: Displays the integer starting at the cursor location, and advances the cursor appropriately.
+    function void printInt(int i) {}
+
+    //Purpose:  Advances the cursor to the beginning of the next line.
+    function void println() {}
+
+    //Purpose: moves the cursor one column back.
+    function void backSpace() {}
+
+}

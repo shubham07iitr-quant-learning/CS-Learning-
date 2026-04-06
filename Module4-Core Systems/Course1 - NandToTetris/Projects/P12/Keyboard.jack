@@ -1,0 +1,83 @@
+//This class supports reading inputs from a standard keyboard.
+
+class Keyboard {
+    
+
+
+    //Purpose:
+    function void init() {return ;}
+
+    //Purpose:Returns the character of the currently pressed key on the
+    //keyboard; if no key is currently pressed, returns 0. Recognizes all the values in the Hack
+    //character set (see appendix 5). These include the characters newline (128, return value of
+    //String.newline()), backspace (129, return value of String.backspace()), left-arrow
+    //(130), up-arrow (131), right-arrow (132), down-arrow (133), home (134), end (135), page-
+    //up (136), page-down (137), insert (138), delete (139), ESC (140), and F1-F12 (141-152).
+    
+    function char keyPressed() {
+        var int kbValue;
+        let kbValue = Memory.peek(24576);
+        return kbValue;
+    }
+
+    //Purpose: Waits until a key is pressed on the keyboard and released, then displays the corresponding character on the screen, and returns the character.
+    function char readChar() {
+        var int c;
+        let c = 0;
+        do Output.printChar(95); //displaying the cursor 95 represents '_'
+        while(keyPressed() = 0) {}
+        let c = keyPressed();
+        //wait until key is released:
+        while (~(keyPressed() = 0)) {}
+        do Output.backSpace(); //to delete the _ cursor we had
+        do Output.printChar(c);
+        return c;
+    }
+
+    //Purpose: Displays the message on the screen, reads from
+    //the keyboard the entered string of characters until a newline character is detected, echoes
+    //(prints) the string on the screen, and returns the string. Also handles user backspaces.
+    function String readLine(String message) {
+        var char c;
+        var String str;
+        let str = String.new(64);
+        //displaying the message
+        do Output.printString(message);
+        //now waiting for user input
+        while (true) {
+            let c = readChar();
+            if (c = 128) {return str;}
+            if (c = 129) {
+                do str.eraseLastChar(); //we erase the last char from string
+            }
+            else {
+                do str.appendChar(c);
+            }
+        }
+        return str;
+    }
+
+    //Purpose: Displays the message on the screen, reads from the
+    //keyboard the entered string of characters until a newline character is detected, displays the
+    //string on the screen, and returns its integer value, until the first non-digit character in the
+    //entered string is detected. Also handles user backspaces.
+    function int readInt(String message){
+        var char c;
+        var String str;
+        let str = String.new(64);
+        //displaying the message
+        do Output.printString(message);
+        //now waiting for user input
+        while (true) {
+            let c = readChar();
+            if (c = 128) {return str.intValue()}
+            if (c = 129) {
+                do str.eraseLastChar(); //we erase the last char from string
+            }
+            else {
+                do str.appendChar(c);
+            }
+        }
+        return str.intValue();
+    }
+}

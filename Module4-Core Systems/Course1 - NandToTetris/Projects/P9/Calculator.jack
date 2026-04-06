@@ -1,0 +1,85 @@
+//This will create a Calculator object which will have 2 int fields on which it will perform the operations
+
+/*
+Type/Interpretation: 
+    - We are creating a calculator object which will operate on inputs from teh user , and return required output after performing the necessary opertion
+    - Will support the following methods: 
+        - Addition
+        - Subtraction
+        - Mutliplication
+        - Division
+        - Minimum
+        - Maximum
+
+*/
+class Calculator {
+    field int num1, num2;
+
+    //Will construct the relevant object
+    constructor Calculator new(int x, int y) {
+        let num1 = x;
+        let num2 = y;
+        return this; //returns the base address of our object created 
+    }
+
+    //Method to perform addition
+    method void add() {
+        var int sum;
+        let sum = num1 + num2 ;
+        do Output.printString("The output of addition method is: ");
+        do Output.printInt(sum);
+        return;
+    }
+
+    //Method to perform subtraction (Returns x-y)
+    method void sub() {
+        var int minus;
+        let minus = num1 - num2;
+        do Output.printString("The output of sub method is: ");
+        do Output.printInt(minus);
+        return;
+    }
+
+    //Method to perform division (Returns x/y)
+    method void divide() {
+        var int div;
+        let div = num1/num2;
+        do Output.printString("The output of div method is: ");
+        do Output.printInt(div);
+        return;
+    }
+
+    //Method to perform Multiplication (Returnds x*y)
+    method void mult() {
+        var int mul;
+        let mul = (num1)*(num2);
+        do Output.printString("The output of mul method is: ");
+        do Output.printInt(mul);
+        return;
+    }
+
+    //Method to perform Minimm (returns min(x,y))
+    method void min() {
+        var int mi;
+        let mi = Math.min(num1, num2);
+        do Output.printString("The output of min method is: ");
+        do Output.printInt(mi);
+        return;
+    }
+
+    //Method to perform Maximum (returns max(x,y))
+    method void max() {
+        var int ma;
+        let ma = Math.max(num1, num2);
+        do Output.printString("The output of max method is: ");
+        do Output.printInt(ma);
+        return;
+    }
+
+    //Method to dispose memory:
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+}

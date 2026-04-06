@@ -1,0 +1,138 @@
+//This library provides two different services: direct access to the computer’s main memory
+//(RAM), and allocation and recycling of memory blocks. The Hack RAM consists of 32,768
+//words, each holding a 16-bit binary number.
+
+
+//For solving alloc and dealloc here are the mechanics:
+//DATA STRUCTURE:
+//We will have a LL Data structure to represent our memory:
+// Our data structure will have the following 3 fields:
+// - HEAD - to be initialised to 2048 - the memory address where the heap begins - an array because 
+// - NEXT - Will store the address of the next block for us  , no additional variable will be accessed via Memory.peek(traversalHead)
+// - PRECEDING NEXT - to be initialised to HEAD - 
+// - TAIL - to be initialised to HEAD
+// - TRAVERSAL HEAD - Useful for recursion
+//MECAHNICS:
+// - ALLOC:
+//      - If current size at traversalHead> requested size + 2::: allocate memory (from the end of the block), do nothing
+//      - If current size < requested size +2::
+//          - If NEXT == 0; THROW ERROR
+//          - Else go to NEXT and recurse
+//      - If current size = requested size + 2:::
+//          - If PRECEDING HEAD = HEAD; means first block of memory , need to update HEAD to NEXT, and PRECEDING HEAD to HEAD
+//          - If NEXT == 0; last block of memory, NEXT to point to 0
+//          - Else PRECEDING NEXT = CURRENT NEXT
+// Allocated memory block will be size + 2
+//      - size to be utilised for actual data
+//      - 1 to be utilised for storing the size of the block, and 1 will just not be utilised
+// - DEALLOC:
+//      - Set Memory.poke(tail) = arr-2 - this will add the current block which got freed up to the end of our block of LL
+//      - Set tail = arr-2 - to reset tail
+//      - Set Memory.poke(arr-2) = 0 - to signal NEXT now points to 0, or that this has become our tail now
+
+
+
+class Memory {
+    static Array ram;
+    static int   head, tail,next, precedingHead, traversalHead;
+    
+    function void init() { 
+        let ram = 0;
+        let head = 2048; //points to top of heap at the start
+        do Memory.poke(head, 0); //Initilly NEXT points to 0
+        do Memory.poke(head+1, 14335); //Initialising size of the first block of memory
+        let tail = head; //initialising TAIL to also store the same value as head
+        let precedingHead = head; //initialsing PRECEDING HEAD
+        let traversalHead = head; //Initialising traversal Head
+        }
+    
+    //Purpose: Returns the value of RAM[address].
+    function int peek(int address){
+        return ram[address];
+    }
+    
+    //Purpose: Sets RAM[address] to the given value.
+    function void poke(int address, int value) {
+        let ram[address] = value;
+        return;
+    }
+
+    //Purpose: Finds an available RAM block of the given size, and returns a reference to its base address.
+    function Array alloc(int size) {
+        var int block, currentSize;
+
+        //Case 1: when current size > requested size + 2
+        let currentSize = Memory.peek(traversalHead + 1);
+        if (currentSize > size + 2) {
+            let block = traversalHead + 1 + currentSize - size +1 ;// first 1 because head points to next and we want size which os +1, and last 1 because of simple maths
+            do Memory.poke(block-1, size); //We update block carved out with the size of the block, block -2 will be reserved for NEXT when it is reused after dealloc
+            do Memory.poke(traversalHead + 1, currentSize - size - 2) ;  // Updating size now available
+            let traversalHead = head ;//Reset traversalHeaad to currentHead for any future allocations
+            let precedingHead = head ; //We reset precedingHead to currentHead for future traversals
+            return block;
+        }
+        // Case 2: When currentSize = size or currentSize = size + 1, or currentSize = size + 1 , rest all cases where currentSize > size are filtered in the Case 1
+        //Here we are allocating some extra memory to allocated block but that is prefereable
+        //Because imagine what would happenn otherwise - if currentSize is 6, and required size is 3, so 6 > 3+2, which means we carve out 3+2 separately leaving the current
+        //block with only 1 size which will never be utilised - uttterly bad scenario
+        if (~(currentSize < size)) {
+
+            //Subcase 2A: When we are at the head of the list, we need to move the head to next value, after allocating the required block
+            if (traversalHead = head) {
+                let block = traversalHead + 2; //allocating the block
+                let head = Memory.peek(traversalHead); //resetting head to NEXT
+                let precedingHead = head; //We reset precedingHead to currentHead for future traversals
+                let traversalHead = head; //Reset traversalHeaad to currentHead for any future allocations
+                return block;
+            }
+            //Subcase 2B: Whn we are at the tail of the list, we need to update the preceding Head as tail
+            if (traversalHead = tail) {
+                let block = traversalHead + 2; //allocating the block
+                let tail = precedingHead; //Updating tail as preceding head
+                do Memory.poke(precedingHead, 0); //And setting up NEXT as 0
+                let traversalHead = head; //Reset traversalHeaad to currentHead for any future allocations
+                let precedingHead = head; //We reset precedingHead to currentHead for future traversals
+                return block;
+            }
+            //Subcase 2C: When we are in the middle of the list, and need to update precedingHead (value) current Next value
+            else {
+                let block = traversalHead + 2; //allocating the block
+                do Memory.poke(precedingHead, Memory.peek(traversalHead)); //we break the link with traversalHead and join previous and next instead
+                let traversalHead = head; //Reset traversalHeaad to currentHead for any future allocations
+                let precedingHead = head; //We reset precedingHead to currentHead for future traversals
+                return block;
+            }
+        }
+        //Case 3: when we dont find the required size of block which means either our current block size <= 2 in size, or current block <= size + 2
+        else {
+            //SubCase 3A : When we have reached the end of the list, so we throw an error, 
+            if (traversalHead = tail) {
+                do Output.printString("Cannot find the requested block for you, pls try for a smaller size ");
+                let traversalHead = head; //Reset traversalHeaad to currentHead for any future allocations
+                let precedingHead = head ;//We reset precedingHead to currentHead for future traversals
+                do Sys.halt(); //We stop the execution because of the error
+                return;
+                }
+            //SubCase 3B: When we have not reached the end of the list
+            else {
+                let precedingHead = traversalHead; //Moving precedingHead forward as well for recursion
+                let traversalHead = Memory.peek(traversalHead); // We update traversal Head to point to next block for us, and then recurse
+                let block = Memory.alloc(size);
+                let traversalHead = head; //Reset traversalHeaad to currentHead for any future allocations
+                let precedingHead = head; //Resetting precedingHead for future allocations
+                return block;
+            }
+        }
+
+    }
+
+
+    //Purpose:  De-allocates the given object, which is cast as an array.
+    function void deAlloc(Array arr) {
+        do Memory.poke(tail, arr-2); //Update NEXT value for the current tail
+        let tail = arr-2; //update tail itself to store the address of arr-2 , 
+        do Memory.poke(tail, 0); //set the new tail's NEXT to 0
+
+    }
+}
+

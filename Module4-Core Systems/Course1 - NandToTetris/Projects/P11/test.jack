@@ -1,0 +1,50 @@
+// This is a single line comment
+
+/**
+ * Represents a simple calculator.
+ * Provides basic arithmetic operations.
+ */
+class Calculator {
+    field int result; 
+    static int count;
+
+    /* A simple block comment */
+    constructor Calculator new(int initialValue) {
+        let result = initialValue;
+        let count = count + 1;
+        return this;
+    }
+
+    /** Adds a value to the current result. */
+    method int add(int x) {
+        let result = result + x;
+        return result;
+    }
+
+    method void printResult() {
+        // printing the result
+        do Output.printString("Result: ");
+        do Output.printInt(result);
+        do Output.println();
+        return;
+    }
+
+    method boolean isPositive() {
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    method int compute(int a, int b) {
+        var int temp;
+        var Array arr;
+        let arr = Array.new(3);
+        let arr[0] = a;
+        let arr[1] = b;
+        let temp = (a + b) * (a - b); /* inline block comment */
+        let result = temp;
+        return result;
+    }
+}

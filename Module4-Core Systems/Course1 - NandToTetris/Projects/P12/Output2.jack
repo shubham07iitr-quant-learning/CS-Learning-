@@ -1,0 +1,384 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/12/Output.jack
+
+/**
+ * A library of functions for writing text on the screen.
+ * The Hack screen is 256 rows x 512 columns, divided into a 23-row x 64-column
+ * grid of character cells. Each character is 11 pixels tall and 8 pixels wide.
+ * Characters are rendered using an 11-row bitmap font.
+ * The cursor position is tracked in (row, col) character coordinates.
+ */
+class Output {
+    static Array charMaps; // character bitmaps
+    static int cursorRow, cursorCol; // cursor position in character grid
+
+    /** Initializes the output and locates the cursor at the screen's top-left. */
+    function void init() {
+        let cursorRow = 0;
+        let cursorCol = 0;
+        do Output.initMap();
+        return;
+    }
+
+    // Initializes the character map array.
+    // Each character is represented by 11 values, one per row.
+    // Each value is an 8-bit pattern for that row of the character.
+    function void initMap() {
+        var int i;
+
+        let charMaps = Array.new(127);
+
+        // Initialise all characters to blank
+        let i = 0;
+        while (i < 127) {
+            let charMaps[i] = Array.new(11);
+            do Output.fillMap(i, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            let i = i + 1;
+        }
+
+        // Black square (used for non-printable chars)
+        do Output.fillMap(0, 63, 63, 63, 63, 63, 63, 63, 63, 63, 0, 0);
+
+        // Space
+        do Output.fillMap(32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        // !
+        do Output.fillMap(33, 12, 30, 30, 30, 12, 12, 0, 12, 12, 0, 0);
+        // "
+        do Output.fillMap(34, 54, 54, 20, 0, 0, 0, 0, 0, 0, 0, 0);
+        // #
+        do Output.fillMap(35, 0, 18, 18, 63, 18, 63, 18, 18, 0, 0, 0);
+        // $
+        do Output.fillMap(36, 12, 30, 51, 3, 30, 48, 51, 30, 12, 0, 0);
+        // %
+        do Output.fillMap(37, 0, 0, 35, 51, 24, 12, 6, 51, 49, 0, 0);
+        // &
+        do Output.fillMap(38, 12, 30, 30, 12, 54, 27, 27, 27, 54, 0, 0);
+        // '
+        do Output.fillMap(39, 12, 12, 6, 0, 0, 0, 0, 0, 0, 0, 0);
+        // (
+        do Output.fillMap(40, 24, 12, 6, 6, 6, 6, 6, 12, 24, 0, 0);
+        // )
+        do Output.fillMap(41, 6, 12, 24, 24, 24, 24, 24, 12, 6, 0, 0);
+        // *
+        do Output.fillMap(42, 0, 0, 0, 51, 30, 63, 30, 51, 0, 0, 0);
+        // +
+        do Output.fillMap(43, 0, 0, 0, 12, 12, 63, 12, 12, 0, 0, 0);
+        // ,
+        do Output.fillMap(44, 0, 0, 0, 0, 0, 0, 0, 12, 12, 6, 0);
+        // -
+        do Output.fillMap(45, 0, 0, 0, 0, 0, 63, 0, 0, 0, 0, 0);
+        // .
+        do Output.fillMap(46, 0, 0, 0, 0, 0, 0, 0, 12, 12, 0, 0);
+        // /
+        do Output.fillMap(47, 0, 0, 32, 48, 24, 12, 6, 3, 1, 0, 0);
+
+        // 0
+        do Output.fillMap(48, 12, 30, 51, 51, 51, 51, 51, 30, 12, 0, 0);
+        // 1
+        do Output.fillMap(49, 12, 14, 15, 12, 12, 12, 12, 12, 63, 0, 0);
+        // 2
+        do Output.fillMap(50, 30, 51, 48, 24, 12, 6, 3, 51, 63, 0, 0);
+        // 3
+        do Output.fillMap(51, 30, 51, 48, 48, 28, 48, 48, 51, 30, 0, 0);
+        // 4
+        do Output.fillMap(52, 16, 24, 28, 26, 25, 63, 24, 24, 60, 0, 0);
+        // 5
+        do Output.fillMap(53, 63, 3, 3, 31, 48, 48, 48, 51, 30, 0, 0);
+        // 6
+        do Output.fillMap(54, 28, 6, 3, 3, 31, 51, 51, 51, 30, 0, 0);
+        // 7
+        do Output.fillMap(55, 63, 49, 48, 48, 24, 12, 12, 12, 12, 0, 0);
+        // 8
+        do Output.fillMap(56, 30, 51, 51, 51, 30, 51, 51, 51, 30, 0, 0);
+        // 9
+        do Output.fillMap(57, 30, 51, 51, 51, 62, 48, 48, 24, 14, 0, 0);
+
+        // :
+        do Output.fillMap(58, 0, 0, 12, 12, 0, 0, 12, 12, 0, 0, 0);
+        // ;
+        do Output.fillMap(59, 0, 0, 12, 12, 0, 0, 12, 12, 6, 0, 0);
+        // <
+        do Output.fillMap(60, 0, 0, 24, 12, 6, 3, 6, 12, 24, 0, 0);
+        // =
+        do Output.fillMap(61, 0, 0, 0, 63, 0, 0, 63, 0, 0, 0, 0);
+        // >
+        do Output.fillMap(62, 0, 0, 3, 6, 12, 24, 12, 6, 3, 0, 0);
+        // ?
+        do Output.fillMap(63, 30, 51, 51, 24, 12, 12, 0, 12, 12, 0, 0);
+        // @
+        do Output.fillMap(64, 30, 51, 51, 59, 59, 59, 3, 51, 30, 0, 0);
+
+        // A
+        do Output.fillMap(65, 12, 30, 51, 51, 63, 51, 51, 51, 51, 0, 0);
+        // B
+        do Output.fillMap(66, 31, 51, 51, 51, 31, 51, 51, 51, 31, 0, 0);
+        // C
+        do Output.fillMap(67, 28, 54, 35, 3, 3, 3, 35, 54, 28, 0, 0);
+        // D
+        do Output.fillMap(68, 15, 27, 51, 51, 51, 51, 51, 27, 15, 0, 0);
+        // E
+        do Output.fillMap(69, 63, 51, 35, 11, 15, 11, 35, 51, 63, 0, 0);
+        // F
+        do Output.fillMap(70, 63, 51, 35, 11, 15, 11, 3, 3, 3, 0, 0);
+        // G
+        do Output.fillMap(71, 28, 54, 35, 3, 59, 51, 51, 54, 44, 0, 0);
+        // H
+        do Output.fillMap(72, 51, 51, 51, 51, 63, 51, 51, 51, 51, 0, 0);
+        // I
+        do Output.fillMap(73, 30, 12, 12, 12, 12, 12, 12, 12, 30, 0, 0);
+        // J
+        do Output.fillMap(74, 60, 24, 24, 24, 24, 24, 27, 27, 14, 0, 0);
+        // K
+        do Output.fillMap(75, 51, 51, 27, 15, 7, 15, 27, 51, 51, 0, 0);
+        // L
+        do Output.fillMap(76, 3, 3, 3, 3, 3, 3, 35, 51, 63, 0, 0);
+        // M
+        do Output.fillMap(77, 33, 51, 63, 63, 51, 51, 51, 51, 51, 0, 0);
+        // N
+        do Output.fillMap(78, 51, 51, 55, 55, 63, 59, 59, 51, 51, 0, 0);
+        // O
+        do Output.fillMap(79, 30, 51, 51, 51, 51, 51, 51, 51, 30, 0, 0);
+        // P
+        do Output.fillMap(80, 31, 51, 51, 51, 31, 3, 3, 3, 3, 0, 0);
+        // Q
+        do Output.fillMap(81, 30, 51, 51, 51, 51, 51, 63, 59, 30, 48, 0);
+        // R
+        do Output.fillMap(82, 31, 51, 51, 51, 31, 27, 51, 51, 51, 0, 0);
+        // S
+        do Output.fillMap(83, 30, 51, 51, 6, 28, 48, 51, 51, 30, 0, 0);
+        // T
+        do Output.fillMap(84, 63, 63, 45, 12, 12, 12, 12, 12, 30, 0, 0);
+        // U
+        do Output.fillMap(85, 51, 51, 51, 51, 51, 51, 51, 51, 30, 0, 0);
+        // V
+        do Output.fillMap(86, 51, 51, 51, 51, 51, 30, 30, 12, 12, 0, 0);
+        // W
+        do Output.fillMap(87, 51, 51, 51, 51, 51, 63, 63, 54, 18, 0, 0);
+        // X
+        do Output.fillMap(88, 51, 51, 30, 30, 12, 30, 30, 51, 51, 0, 0);
+        // Y
+        do Output.fillMap(89, 51, 51, 51, 51, 30, 12, 12, 12, 30, 0, 0);
+        // Z
+        do Output.fillMap(90, 63, 51, 49, 24, 12, 6, 35, 51, 63, 0, 0);
+
+        // [
+        do Output.fillMap(91, 30, 6, 6, 6, 6, 6, 6, 6, 30, 0, 0);
+        // backslash
+        do Output.fillMap(92, 0, 0, 1, 3, 6, 12, 24, 48, 32, 0, 0);
+        // ]
+        do Output.fillMap(93, 30, 24, 24, 24, 24, 24, 24, 24, 30, 0, 0);
+        // ^
+        do Output.fillMap(94, 8, 28, 54, 0, 0, 0, 0, 0, 0, 0, 0);
+        // _
+        do Output.fillMap(95, 0, 0, 0, 0, 0, 0, 0, 0, 0, 63, 0);
+        // `
+        do Output.fillMap(96, 6, 12, 24, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        // a
+        do Output.fillMap(97, 0, 0, 0, 14, 24, 30, 27, 27, 54, 0, 0);
+        // b
+        do Output.fillMap(98, 3, 3, 3, 15, 27, 51, 51, 51, 30, 0, 0);
+        // c
+        do Output.fillMap(99, 0, 0, 0, 30, 51, 3, 3, 51, 30, 0, 0);
+        // d
+        do Output.fillMap(100, 48, 48, 48, 60, 54, 51, 51, 51, 30, 0, 0);
+        // e
+        do Output.fillMap(101, 0, 0, 0, 30, 51, 63, 3, 51, 30, 0, 0);
+        // f
+        do Output.fillMap(102, 28, 54, 38, 6, 15, 6, 6, 6, 15, 0, 0);
+        // g
+        do Output.fillMap(103, 0, 0, 30, 51, 51, 51, 62, 48, 51, 30, 0);
+        // h
+        do Output.fillMap(104, 3, 3, 3, 27, 55, 51, 51, 51, 51, 0, 0);
+        // i
+        do Output.fillMap(105, 12, 12, 0, 14, 12, 12, 12, 12, 30, 0, 0);
+        // j
+        do Output.fillMap(106, 48, 48, 0, 56, 48, 48, 48, 51, 51, 30, 0);
+        // k
+        do Output.fillMap(107, 3, 3, 3, 51, 27, 15, 15, 27, 51, 0, 0);
+        // l
+        do Output.fillMap(108, 14, 12, 12, 12, 12, 12, 12, 12, 30, 0, 0);
+        // m
+        do Output.fillMap(109, 0, 0, 0, 29, 63, 43, 43, 43, 43, 0, 0);
+        // n
+        do Output.fillMap(110, 0, 0, 0, 29, 51, 51, 51, 51, 51, 0, 0);
+        // o
+        do Output.fillMap(111, 0, 0, 0, 30, 51, 51, 51, 51, 30, 0, 0);
+        // p
+        do Output.fillMap(112, 0, 0, 0, 30, 51, 51, 51, 31, 3, 3, 0);
+        // q
+        do Output.fillMap(113, 0, 0, 0, 30, 51, 51, 51, 62, 48, 48, 0);
+        // r
+        do Output.fillMap(114, 0, 0, 0, 29, 55, 51, 3, 3, 7, 0, 0);
+        // s
+        do Output.fillMap(115, 0, 0, 0, 30, 51, 6, 24, 51, 30, 0, 0);
+        // t
+        do Output.fillMap(116, 4, 6, 6, 15, 6, 6, 6, 54, 28, 0, 0);
+        // u
+        do Output.fillMap(117, 0, 0, 0, 27, 27, 27, 27, 27, 54, 0, 0);
+        // v
+        do Output.fillMap(118, 0, 0, 0, 51, 51, 51, 51, 30, 12, 0, 0);
+        // w
+        do Output.fillMap(119, 0, 0, 0, 51, 51, 51, 63, 63, 18, 0, 0);
+        // x
+        do Output.fillMap(120, 0, 0, 0, 51, 30, 12, 12, 30, 51, 0, 0);
+        // y
+        do Output.fillMap(121, 0, 0, 0, 51, 51, 51, 62, 48, 24, 15, 0);
+        // z
+        do Output.fillMap(122, 0, 0, 0, 63, 27, 12, 6, 51, 63, 0, 0);
+
+        // {
+        do Output.fillMap(123, 56, 12, 12, 12, 7, 12, 12, 12, 56, 0, 0);
+        // |
+        do Output.fillMap(124, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0, 0);
+        // }
+        do Output.fillMap(125, 7, 12, 12, 12, 56, 12, 12, 12, 7, 0, 0);
+        // ~
+        do Output.fillMap(126, 38, 45, 25, 0, 0, 0, 0, 0, 0, 0, 0);
+
+        return;
+    }
+
+    // Helper: fills the bitmap for character index with 11 row values.
+    function void fillMap(int index, int a, int b, int c, int d, int e,
+                          int f, int g, int h, int i, int j, int k) {
+        var Array map;
+        let map = charMaps[index];
+        let map[0] = a;
+        let map[1] = b;
+        let map[2] = c;
+        let map[3] = d;
+        let map[4] = e;
+        let map[5] = f;
+        let map[6] = g;
+        let map[7] = h;
+        let map[8] = i;
+        let map[9] = j;
+        let map[10] = k;
+        return;
+    }
+
+    /** Moves the cursor to the j-th column of the i-th row,
+     *  and erases the character displayed there. */
+    function void moveCursor(int i, int j) {
+        // Erase character at new position before moving
+        let cursorRow = i;
+        let cursorCol = j;
+        // Erase the cell by printing a space
+        do Output.printCharAt(cursorRow, cursorCol, 32);
+        return;
+    }
+
+    /** Displays the given character at the cursor location and advances the cursor. */
+    function void printChar(char c) {
+        do Output.printCharAt(cursorRow, cursorCol, c);
+        do Output.advanceCursor();
+        return;
+    }
+
+    /** Displays the given string starting at the cursor location and advances the cursor. */
+    function void printString(String s) {
+        var int i;
+        let i = 0;
+        while (i < s.length()) {
+            do Output.printChar(s.charAt(i));
+            let i = i + 1;
+        }
+        return;
+    }
+
+    /** Displays the given integer starting at the cursor location and advances the cursor. */
+    function void printInt(int i) {
+        var String s;
+        let s = String.new(6); // max 5 digits + sign
+        do s.setInt(i);
+        do Output.printString(s);
+        do s.dispose();
+        return;
+    }
+
+    /** Advances the cursor to the beginning of the next line. */
+    function void println() {
+        let cursorCol = 0;
+        let cursorRow = cursorRow + 1;
+        if (cursorRow > 22) {
+            let cursorRow = 0; // wrap to top
+        }
+        return;
+    }
+
+    /** Moves the cursor one column back. */
+    function void backSpace() {
+        if (cursorCol > 0) {
+            let cursorCol = cursorCol - 1;
+        }
+        else {
+            if (cursorRow > 0) {
+                let cursorRow = cursorRow - 1;
+                let cursorCol = 63;
+            }
+        }
+        // Erase character at the new cursor position
+        do Output.printCharAt(cursorRow, cursorCol, 32);
+        return;
+    }
+
+    // Internal: advances cursor by one position, wrapping as needed.
+    function void advanceCursor() {
+        let cursorCol = cursorCol + 1;
+        if (cursorCol > 63) {
+            let cursorCol = 0;
+            let cursorRow = cursorRow + 1;
+            if (cursorRow > 22) {
+                let cursorRow = 0;
+            }
+        }
+        return;
+    }
+
+    // Internal: draws character c at character grid position (row, col).
+    // Each character is 8 pixels wide (occupies the lower 8 bits of a 16-bit word)
+    // and 11 pixels tall.
+    function void printCharAt(int row, int col, int c) {
+        var Array map;
+        var int screenAddr, i, rowBits;
+        var boolean oddCol;
+
+        // Validate character
+        if ((c < 0) | (c > 126)) {
+            let c = 0;
+        }
+
+        let map = charMaps[c];
+
+        // Each character cell is 8 pixels wide.
+        // Two characters share one 16-bit word (cols 0,1 share a word; 2,3; etc.)
+        // Even columns use the lower 8 bits, odd columns use the upper 8 bits.
+        let oddCol = (col & 1) = 1;
+        let screenAddr = 16384 + (row * 352) + (col / 2); // 352 = 11 rows * 32 words/row
+
+        let i = 0;
+        while (i < 11) {
+            let rowBits = Memory.peek(screenAddr);
+            if (oddCol) {
+                // Clear upper 8 bits, keep lower 8
+                let rowBits = rowBits & 255;
+                // Set upper 8 bits from bitmap
+                let rowBits = rowBits | (map[i] * 256);
+            }
+            else {
+                // Clear lower 8 bits, keep upper 8
+                let rowBits = rowBits & (~255); // mask = 0xFF00
+                // Set lower 8 bits from bitmap
+                let rowBits = rowBits | map[i];
+            }
+            do Memory.poke(screenAddr, rowBits);
+            let screenAddr = screenAddr + 32; // next pixel row = +32 words
+            let i = i + 1;
+        }
+        return;
+    }
+}

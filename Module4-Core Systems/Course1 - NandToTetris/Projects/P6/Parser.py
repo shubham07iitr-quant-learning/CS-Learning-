@@ -10,7 +10,7 @@
 class Parser():
     def __init__(self, filename):
         if filename[-4:] != ".asm":
-            raise TypeError("Please only input ")
+            raise TypeError("Please only input .asm file extensions")
         else:
             self.filename = filename
             self.listall = [] ##will capture all instructions including comments but excluding empty lines
@@ -67,7 +67,7 @@ class Parser():
                 self.listofinstructions.append(line)
         
 
-    """
+    """ 
     Signature: self, instruction: Str> instType: Str
     Purpose: 
         Takes in a string of instruction and confirms whether it is an A instruction or C instruction or L instruction

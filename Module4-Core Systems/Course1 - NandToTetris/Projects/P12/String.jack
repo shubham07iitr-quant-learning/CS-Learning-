@@ -1,0 +1,122 @@
+//The String class represents strings of char values, and supports commonly needed string processing services.
+
+class String {
+    field Array str;
+    field int length;
+    
+    
+    //Purpose: Constructs a new empty string with a maximum length of maxLength and initial length of 0.
+    constructor String new(int maxLength) {
+        if (maxLength > 0) {let str = Array.new(maxLength);}
+        let length = 0;
+        return this;
+    } 
+
+    //Purpose: Disposes this string.
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    //Purpose: Returns the number of characters in this string.
+    method int length() {
+        return length;
+    }
+
+    //Purpose: Returns the character at the j-th location of this string.
+    method char charAt(int j) {
+        return str[j];
+    }
+
+    //Purpose: Sets the character at the j-th location of this string to c.
+    method void setCharAt(int j, char c) {
+        let str[j] = c;
+        return;
+    }
+
+    //Purpose: Appends c to this string’s end, and returns this string.
+    method String appendChar(char c) {
+        let str[length] = c;
+        let length = length + 1;
+        return this;
+    }
+
+    //Purpose: Erases the last character from this string.
+    method void eraseLastChar() {
+        let length = length - 1;
+        return;
+    }
+
+    //Purpose: Returns the integer value of this string, until a non-digit char is detected.
+    method int intValue() {
+        var int val, counter, d;
+        var boolean neg;
+        let val = 0;
+        let counter = 0;
+        let neg = false;
+
+        if (str[0] = 45) {
+            let neg = true;
+            let counter = 1;
+        }
+
+        while (counter < length) {
+            if ((str[counter] > 47) & (str[counter] < 58)) {
+                let d = str[counter] - 48;
+                let val = (val * 10) + d;
+            }
+            else {
+                if (neg) { return -val; }
+                return val;
+            }
+            let counter = counter + 1;
+        }
+
+        if (neg) { return -val; }
+        return val;
+    }
+    //Purpose: Sets this string to hold a representation of the given value.
+    //Retuns the string representation of a non negative integer
+    method void setInt(int val) {
+        let length = 0;  // reset string
+        if (val < 0) {
+            let str[0] = 45;  // '-'
+            let length = 1;
+            let val = -val;
+        }
+        do int2String(val);
+        return;
+    }
+
+    method void int2String(int val) {
+        var int lastDigit, c;
+        let lastDigit = val - ((val / 10) * 10);  // val % 10
+        let c = lastDigit + 48;
+        if (val < 10) {
+            let str[length] = c;
+            let length = length + 1;
+        }
+        else {
+            do int2String(val / 10);  // recurse first
+            let str[length] = c;      // then append
+            let length = length + 1;
+        }
+        return;
+    }
+
+    //Purpose: Returns the backspace character.
+    function char backSpace() {
+        return 129;
+    }
+
+    //Purpose:  Returns the double quote (") character.
+    function char doubleQuote() {
+        return 34;
+    }
+
+    //Purpose: Returns the newline character.
+    function char newLine() {
+        return 128;
+    }
+}
+    

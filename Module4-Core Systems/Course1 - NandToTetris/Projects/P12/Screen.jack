@@ -1,0 +1,29 @@
+//A library of functions for displaying graphical shapes on the screen. The Hack physical screen
+//consists of 256 rows (indexed 0..255, top to bottom) of 512 pixels each (indexed 0..511, left to
+//right). The top left pixel on the screen is indexed (0,0).
+
+
+class Screen {
+
+
+    //Purpose:
+    function void init() {}
+    
+    //Purpose: Erases the entire screen.
+    function void clearScreen() {}
+    
+    //Purpose: Sets the current color. This color will be used in all the subsequent drawXxx function calls. Black is represented by true, white by false.
+    function void setColor(boolean b): 
+    
+    //Purpose: Draws the (x,y) pixel, using the current color.
+    function void drawPixel(int x, int y) {}
+    
+    //Purpose: Draws a line from pixel (x1,y1) to pixel (x2,y2), using the current color.
+    function void drawLine(int x1, int y1, int x2, int y2) {}
+    
+    //Purpose: Draws a filled rectangle whose top left corner is (x1,y1) and bottom right corner is (x2,y2), using the current color.
+    function void drawRectangle(int x1, int y1, int x2, int y2) {}
+
+    //Purpose: Draws a filled circle of radius r ≤181 around (x,y), using the current color.
+    function void drawCircle(int x, int y, int r) {}
+}

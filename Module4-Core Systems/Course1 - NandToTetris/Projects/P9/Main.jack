@@ -1,0 +1,52 @@
+//Main function for the Calculator app, will call the relevant modules from the Calculator for operating on user inputs
+
+/*Type/Interpretation: 
+    Main class will have just the main method 
+    It won't have any fields of its own
+*/
+class Main {
+
+    //Only one 
+    function void main() {
+        var Calculator cal;
+        var int userRequest;
+        var int num1;
+        var int num2;
+        let userRequest = 0;
+        //Let's first ask user to input the 2 numbers and then we will create the object:
+        while (~(userRequest = 7)) {
+            let num1 = Keyboard.readInt("Please enter the first num: ");
+            let num2 = Keyboard.readInt("Please enter the second num: ");
+            let cal = Calculator.new(num1, num2); 
+            do Output.printString("Please choose one of the given operations to be performed: ");
+            let userRequest = Keyboard.readInt("1. Add, 2. Sub, 3. Divide, 4. Multiply, 5. Max, 6. Min, 7. Exit");
+            if (userRequest = 7) {
+                do Output.printString("Thank you for playing, now we exit");
+                return;
+            }
+            if (userRequest = 1) {
+                do cal.add();
+            }
+            if (userRequest = 2) {
+                do cal.sub();
+            }
+            if (userRequest = 3) {
+                do cal.divide();
+            }
+            if (userRequest = 4) {
+                do cal.mult();
+            }
+            if (userRequest = 5) {
+                do cal.min();
+            }
+            if (userRequest = 6) {
+                do cal.max();
+            }
+            do cal.dispose();
+
+        }
+        return;
+
+    }
+
+}

@@ -1,0 +1,370 @@
+<class>
+<keyword> class </keyword>
+<varName> Calculator </varName>
+<symbol> { </symbol>
+<classVarDec>
+<keyword> field </keyword>
+<keyword> int </keyword>
+<varName> result </varName>
+<symbol> ; </symbol>
+</classVarDec>
+<classVarDec>
+<keyword> static </keyword>
+<keyword> int </keyword>
+<varName> count </varName>
+<symbol> ; </symbol>
+</classVarDec>
+<subroutineDec>
+<keyword> constructor </keyword>
+<varName> Calculator </varName>
+<varName> new </varName>
+<symbol> ( </symbol>
+<parameterList>
+<keyword> int </keyword>
+<varName> initialValue </varName>
+</parameterList>
+<symbol> ) </symbol>
+<subroutineBody>
+<symbol> { </symbol>
+<statements>
+<letStatement>
+<keyword> let </keyword>
+<varName> result </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> initialValue </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<letStatement>
+<keyword> let </keyword>
+<varName> count </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> count </varName>
+</term>
+<symbol> + </symbol>
+<term>
+<intConstant> 1 </intConstant>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<returnStatement>
+<keyword> return </keyword>
+<expression>
+<term>
+<keyword> this </keyword>
+</term>
+</expression>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+</subroutineBody>
+</subroutineDec>
+<subroutineDec>
+<keyword> method </keyword>
+<keyword> int </keyword>
+<varName> add </varName>
+<symbol> ( </symbol>
+<parameterList>
+<keyword> int </keyword>
+<varName> x </varName>
+</parameterList>
+<symbol> ) </symbol>
+<subroutineBody>
+<symbol> { </symbol>
+<statements>
+<letStatement>
+<keyword> let </keyword>
+<varName> result </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> result </varName>
+</term>
+<symbol> + </symbol>
+<term>
+<varName> x </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<returnStatement>
+<keyword> return </keyword>
+<expression>
+<term>
+<varName> result </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+</subroutineBody>
+</subroutineDec>
+<subroutineDec>
+<keyword> method </keyword>
+<keyword> void </keyword>
+<varName> printResult </varName>
+<symbol> ( </symbol>
+<symbol> ) </symbol>
+<subroutineBody>
+<symbol> { </symbol>
+<statements>
+<doStatement>
+<keyword> do </keyword>
+<varName> Output </varName>
+<symbol> . </symbol>
+<varName> printString </varName>
+<symbol> ( </symbol>
+<expressionList>
+<expression>
+<term>
+<stringConstant> Result:  </stringConstant>
+</term>
+</expression>
+</expressionList>
+<symbol> ) </symbol>
+<symbol> ; </symbol>
+</doStatement>
+<doStatement>
+<keyword> do </keyword>
+<varName> Output </varName>
+<symbol> . </symbol>
+<varName> printInt </varName>
+<symbol> ( </symbol>
+<expressionList>
+<expression>
+<term>
+<varName> result </varName>
+</term>
+</expression>
+</expressionList>
+<symbol> ) </symbol>
+<symbol> ; </symbol>
+</doStatement>
+<doStatement>
+<keyword> do </keyword>
+<varName> Output </varName>
+<symbol> . </symbol>
+<varName> println </varName>
+<symbol> ( </symbol>
+<expressionList>
+</expressionList>
+<symbol> ) </symbol>
+<symbol> ; </symbol>
+</doStatement>
+<returnStatement>
+<keyword> return </keyword>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+</subroutineBody>
+</subroutineDec>
+<subroutineDec>
+<keyword> method </keyword>
+<keyword> boolean </keyword>
+<varName> isPositive </varName>
+<symbol> ( </symbol>
+<symbol> ) </symbol>
+<subroutineBody>
+<symbol> { </symbol>
+<statements>
+<ifStatement>
+<keyword> if </keyword>
+<symbol> ( </symbol>
+<expression>
+<term>
+<varName> result </varName>
+</term>
+<symbol> > </symbol>
+<term>
+<intConstant> 0 </intConstant>
+</term>
+</expression>
+<symbol> ) </symbol>
+<symbol> { </symbol>
+<statements>
+<returnStatement>
+<keyword> return </keyword>
+<expression>
+<term>
+<keyword> true </keyword>
+</term>
+</expression>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+<keyword> else </keyword>
+<symbol> { </symbol>
+<statements>
+<returnStatement>
+<keyword> return </keyword>
+<expression>
+<term>
+<keyword> false </keyword>
+</term>
+</expression>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+</ifStatement>
+</statements>
+<symbol> } </symbol>
+</subroutineBody>
+</subroutineDec>
+<subroutineDec>
+<keyword> method </keyword>
+<keyword> int </keyword>
+<varName> compute </varName>
+<symbol> ( </symbol>
+<parameterList>
+<keyword> int </keyword>
+<varName> a </varName>
+<symbol> , </symbol>
+<keyword> int </keyword>
+<varName> b </varName>
+</parameterList>
+<symbol> ) </symbol>
+<subroutineBody>
+<symbol> { </symbol>
+<varDec>
+<keyword> var </keyword>
+<keyword> int </keyword>
+<varName> temp </varName>
+<symbol> ; </symbol>
+</varDec>
+<varDec>
+<keyword> var </keyword>
+<varName> Array </varName>
+<varName> arr </varName>
+<symbol> ; </symbol>
+</varDec>
+<statements>
+<letStatement>
+<keyword> let </keyword>
+<varName> arr </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> Array </varName>
+<symbol> . </symbol>
+<varName> new </varName>
+<symbol> ( </symbol>
+<expressionList>
+<expression>
+<term>
+<intConstant> 3 </intConstant>
+</term>
+</expression>
+</expressionList>
+<symbol> ) </symbol>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<letStatement>
+<keyword> let </keyword>
+<varName> arr </varName>
+<symbol> [ </symbol>
+<expression>
+<term>
+<intConstant> 0 </intConstant>
+</term>
+</expression>
+<symbol> ] </symbol>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> a </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<letStatement>
+<keyword> let </keyword>
+<varName> arr </varName>
+<symbol> [ </symbol>
+<expression>
+<term>
+<intConstant> 1 </intConstant>
+</term>
+</expression>
+<symbol> ] </symbol>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> b </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<letStatement>
+<keyword> let </keyword>
+<varName> temp </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<symbol> ( </symbol>
+<expression>
+<term>
+<varName> a </varName>
+</term>
+<symbol> + </symbol>
+<term>
+<varName> b </varName>
+</term>
+</expression>
+<symbol> ) </symbol>
+</term>
+<symbol> * </symbol>
+<term>
+<symbol> ( </symbol>
+<expression>
+<term>
+<varName> a </varName>
+</term>
+<symbol> - </symbol>
+<term>
+<varName> b </varName>
+</term>
+</expression>
+<symbol> ) </symbol>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<letStatement>
+<keyword> let </keyword>
+<varName> result </varName>
+<symbol> = </symbol>
+<expression>
+<term>
+<varName> temp </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</letStatement>
+<returnStatement>
+<keyword> return </keyword>
+<expression>
+<term>
+<varName> result </varName>
+</term>
+</expression>
+<symbol> ; </symbol>
+</returnStatement>
+</statements>
+<symbol> } </symbol>
+</subroutineBody>
+</subroutineDec>
+<symbol> } </symbol>
+</class>
